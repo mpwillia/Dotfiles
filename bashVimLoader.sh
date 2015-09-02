@@ -8,7 +8,13 @@ fi
 
 case "$1" in
    install)
-
+      wget https://github.com/mpwillia/dotfiles/archive/master.tar.gz 
+      tar -xzvf ./master.tar.gz
+      rm ./master.tar.gz
+      cd ./dotfiles-master
+      ls
+      cd .. 
+      rm -r ./dotfiles-master
       ;;
 
    restore)
