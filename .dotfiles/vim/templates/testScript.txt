@@ -1,0 +1,22 @@
+:insert
+
+
+#-- Compilation --
+#javac
+#gcc
+#make
+#ant
+
+if [ $? -eq 0 ]; then
+
+   echo "=== Running Project ==="
+
+   #-- Execute Program --
+   #java
+   #./
+
+
+fi
+
+
+.

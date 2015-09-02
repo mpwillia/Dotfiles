@@ -1,0 +1,46 @@
+
+
+
+--- Fast bracket/quote entering ---
+Bind ; to skip to first bracket/quote to the left
+Ex:
+   some text ("foo [hello]", word) and some more stuff
+                                       | <- cursor pos
+   Pressing ; would move cursor to:
+   some text ("foo [hello]", word) and some more stuff
+                                 | <- cursor pos 
+
+Ex:
+   some text ("foo [hello]", word) and some more stuff
+                         | <- cursor pos 
+   Pressing ; would move cursor to:
+   some text ("foo [hello]", word) and some more stuff
+                   | <- cursor pos 
+
+
+
+Bind :(Shift-;) to skip to the most nested bracket/quote to the left
+Ex:
+   some text ("foo [hello]", word) and some more stuff
+                                       | <- cursor pos
+   Pressing :(Shift-;) would move cursor to:
+   some text ("foo [hello]", word) and some more stuff
+                         | <- cursor pos 
+
+Ex:
+   some text ("foo [hello]", word) and some more stuff
+                         | <- cursor pos
+   Pressing :(Shift-;) would move cursor to:
+   some text ("foo [hello]", word) and some more stuff
+             | <- cursor pos 
+
+
+Bind ' to skip to first bracket/quote to the right
+Bind " to skip to the most nested bracket/quote to the right
+
+
+
+--- Jump between blocks ---
+Bind one key to jump to the start of the next block below the cursor
+Bind one key to jump to the start of the next block above the cursor
+
