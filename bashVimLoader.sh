@@ -57,18 +57,22 @@ case "$1" in
       esac
       
       #Expand and enter downloaded archive
+      echo
       echo "Expanding archive..."
       tar -xzvf ./$archive
       cd ./$expanded
       ls
       
       #Delete everything we downloaded, made, or whatever
+      echo
       echo "Cleaning up..."
       cd .. 
       rm ./$archive
       rm -r ./$expanded
-
+      
+      echo
       echo "Installation Complete"
+      echo
       ;;
 
    restore)
@@ -88,7 +92,8 @@ case "$1" in
       
       #Copy all the files we want to update into the clone
       PUSH_FILES=(~/.dotfiles ~/.vimrc ~/.vim $0 nope)
-      
+     
+      echo
       echo "Copying files into cloned repo..."
       for file in ${PUSH_FILES[@]}; do
          if [[ -e $file ]]; then
@@ -108,8 +113,9 @@ case "$1" in
       # this script
       #cp ./bashVimLoader.sh $dir
       
-      cd $dir
+      echo
       echo "Adding, commiting, and pushing changes to cloned repo, if any..."
+      cd $dir
       git add .dotfiles
       git add .vimrc
       git add .vim
@@ -117,10 +123,12 @@ case "$1" in
       git commit -m "Commit from script on $(date)"
       git push -u origin master
       cd ..
-
+      
+      echo
       echo "Cleaning up..."
       rm -rf $dir
-      
+     
+      echo
       echo "Push Complete"
       ;;
 
