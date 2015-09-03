@@ -9,6 +9,7 @@ fi
 
 case "$1" in
    install)
+      
       #Name of the downloaded archive
       archive="master.tar.gz"
 
@@ -81,7 +82,8 @@ case "$1" in
 
    push)
       
-      a="~/.dotfiles"
+      #a="~/.dotfiles"
+      a=$0
       xpath=${a%/*}
       xbase=${a##*/}
       xfext=${xbase##*.}
