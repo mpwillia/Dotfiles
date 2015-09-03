@@ -94,11 +94,9 @@ case "$1" in
       echo pref=${xpref}
       echo ext=${xfext}
       echo
-
-      # Names of the files, for use when adding to git commit
-      FILE_NAMES=(.dotfiles .vimrc .vim bashVimLoader.sh)
-      # Locations of the file, for use when copying them into clone 
-      FILE_LOCATIONS=(~/${FILE_NAMES[0]} ~/${FILE_NAMES[1]} ~/${FILE_NAMES[2]} ./${FILE_NAMES[3]})
+      
+      #These are the files to push to the repo
+      PUSH_FILES=(~/.dotfiles ~/vimrc ~/.vim $0)
 
       #Clone into the github repo
       dir="./dotfiles"
@@ -111,11 +109,9 @@ case "$1" in
       dir="./dotfiles" 
       
       #Copy all the files we want to update into the clone
-      PUSH_FILES=(~/.dotfiles ~/.vimrc ~/.vim $0 nope)
-     
       echo
       echo "Copying files into cloned repo..."
-      for file in ${FILE_LOCATIONS[@]}; do
+      for file in ${PUSH_FILES[@]}; do
          if [[ -e $file ]]; then
             echo "Found file '$file'"
             cp -r $file $dir
@@ -124,22 +120,14 @@ case "$1" in
          fi
       done
 
-      # .dotfiles dir
-      #cp -r ~/.dotfiles $dir
-      # .vimrc
-      #cp ~/.vimrc $dir
-      # .vim
-      #cp -r ~/.vim $dir 
-      # this script
-      #cp ./bashVimLoader.sh $dir
-      
       echo
       echo "Adding, commiting, and pushing changes to cloned repo, if any..."
       cd $dir
-      for file in ${FILE_NAMES[@]}; do
-         if [[ -e $file ]]; then
-            echo "Adding file '$file' to commit"
-            git add $file
+      for file in ${PUSH_FILES[@]}; do
+         filebase=${file##*/}
+         if [[ -e $filebase ]]; then
+            echo "Adding file '$filebase' to commit"
+            git add $filebase
          fi
       done
       git commit -m "Commit from script on $(date)"
