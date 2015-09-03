@@ -25,7 +25,7 @@ function FindJumpLine(dir)
       endif
 
       "we want to ignore any adjacent blank lines
-      while IsLineBlank(getline(i)) > 0 && i > 0
+      while IsLineBlank(getline(i)) > 0
          let i -= 1
       endwhile
 
@@ -48,7 +48,7 @@ function FindJumpLine(dir)
       endif
 
       "we want to ignore any adjacent blank lines
-      while IsLineBlank(getline(i)) > 0 && i < numLines
+      while IsLineBlank(getline(i)) > 0
          let i += 1
       endwhile
 
@@ -74,7 +74,3 @@ function IsLineBlank(line)
 
    return 1
 endfunction
-
-
-
-

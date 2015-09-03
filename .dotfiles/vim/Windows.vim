@@ -35,14 +35,13 @@ execute "set <F26>=\eK"
 execute "set <F27>=\eL"
 
 " Special movement
-inoremap <F24> <ESC>:call BracketMovement(0,1)<CR>
-nnoremap <F24> <ESC>:call BracketMovement(0,0)<CR>
+inoremap <F24> <ESC>:call BracketMovement(0,0)<CR>
 inoremap <F25> <ESC>:call BlankLineMovement(1,1)<CR>
 nnoremap <F25> <ESC>:call BlankLineMovement(1,0)<CR>
 inoremap <F26> <ESC>:call BlankLineMovement(0,1)<CR>
 nnoremap <F26> <ESC>:call BlankLineMovement(0,0)<CR>
-inoremap <F27> <ESC>:call BracketMovement(1,1)<CR>
-nnoremap <F27> <ESC>:call BracketMovement(1,0)<CR>
+inoremap <F27> <ESC>:call BracketMovement(1,0)<CR>
+
 
 
 

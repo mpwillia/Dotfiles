@@ -1,12 +1,8 @@
 
-
-" Fixes all sorts of encoding issues by just forcing utf-8
+" Fixes all sorts of encoding issues
 set encoding=utf-8
 
-
-"""""""""""""""""""""""""""""""""""""""""""
 """ Load external custom vim files first
-"""""""""""""""""""""""""""""""""""""""""""
 let g:VIMFILES_DIR="$HOME/.dotfiles/vim"
 
 "Custom Vim files to load
@@ -29,9 +25,7 @@ while i < len(loadFiles)
 endwhile
 
 
-""""""""""""""""""
 """ Indentation
-""""""""""""""""""
 set autoindent    "enable auto indent
 set expandtab     "expand tabs into spaces
 set shiftwidth=3  "columns indented when reindenting
@@ -39,11 +33,9 @@ set softtabstop=3 "size of normal tabs
 set tabstop=3     "global tab size
 
 
-"""""""""""""
 """ Visual
-"""""""""""""
 syntax on
-colorscheme mpwillian
+colorscheme obsidian
 set cursorline       "highlight the line the cursor is on 
 set laststatus=2     "always display the status line
 set linespace=0      "force no extra space between lines
@@ -71,28 +63,15 @@ else
    match OverLength /\%81v.\+/
 endif
 
-" Adds custom task/note tags to syntax groups for highlighting
-if has("autocmd")
-  " Highlight TODO, FIXME, NOTE, etc.
-   if v:version > 701
-      autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|XXX\|BUG\|HACK\):\?')
-      autocmd Syntax * call matchadd('Note', '\W\zs\(NOTE\|INFO\|IDEA\):\?')
-   endif
-endif
 
-
-""""""""""""
 """ Folds
-""""""""""""
 set foldmethod=syntax   "fold off syntax
 set foldnestmax=2       "limit fold nesting, only really fold full functions
 set foldlevelstart=2    "sets the initial fold level
 set nofoldenable        "start with no folds
 
 
-""""""""""""""""""""
 """ Window Splits
-""""""""""""""""""""
 " Map Alt-HJKL to move cursor between splits
 nnoremap <A-h> :wincmd h<CR>
 nnoremap <A-j> :wincmd j<CR>
@@ -108,9 +87,7 @@ noremap <silent> <C-l> <C-w>>
 "TODO Map someshit to move splits around
 
 
-""""""""""""""""""""""
 """ Insert Movement
-""""""""""""""""""""""
 " Map Alt-HJLK to enable cursor movement while in insert mode
 inoremap <A-h> <LEFT>
 inoremap <A-j> <DOWN>
@@ -118,9 +95,7 @@ inoremap <A-k> <UP>
 inoremap <A-l> <RIGHT>
 
 
-"""""""""""""""""""""""""""""
-""" Misc KeyCodes/Bindings
-"""""""""""""""""""""""""""""
+""" Misc KeyCodes 
 " Set our keycode timeout to 150ms
 set timeout timeoutlen=1000 timeoutlen=200
 "TODO Different timeouts for different keycodes?
@@ -157,27 +132,14 @@ nnoremap <A-K> <ESC>:call BlankLineMovement(0,0)<CR>
 inoremap <A-L> <ESC>:call BracketMovement(1,1)<CR>
 nnoremap <A-L> <ESC>:call BracketMovement(1,0)<CR>
 
+
 " TODO enable non-breaking spaces for file types where they would be useful
 
 " Disable the creation of non-breaking spaces with Alt-<SPACE>
 inoremap <A-SPACE> <SPACE>
 
-" Maps F1 to a somewhat useful vim debugging command which prints the syntax
-" highlighting group currently used at the item under the cursor.
-" http://vim.wikia.com/wiki/Identify_the_syntax_highlighting_group_used_at_the_cursor
-"
-" 'high', aka 'highest': the highest group in terms of scope, the most limiting scope
-" 'low', aka 'lowest': the lowest group in terms of scope, generally has a broad reach
-" 'trans', aka 'transparent': syntax groups can be marked as 'transparent' so whatever group they are in is what's used for highlighting. 
-"                             If this is set then the group listed for 'trans' will be the name of that group, otherwise it's a repeat of 'high'
-map <F1> :echo "high<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> low<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
-
-""""""""""""""
 """ Plugins
-""""""""""""""
 " enable pathogen plugin loader
 execute pathogen#infect()
 
@@ -192,9 +154,7 @@ autocmd vimenter * wincmd w      "when a file is opened set focus to the newly o
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 
-""""""""""""""""""""""""""""""""""""""""""""
 """ Compilation and execution keybindings
-""""""""""""""""""""""""""""""""""""""""""""
 " TODO smart compilation, compiles programs based on file types and
 "  includes all desired files, create and use a make file?
 " TODO goal is three universal keybindings

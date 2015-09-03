@@ -6,10 +6,11 @@
 " Char | ˙ | ∆ | ˚ | ¬ 
 "
 " Set F30-F33 to reference the character sent by Alt-hjkl
-execute "set <F30>=˙"
-execute "set <F31>=∆"
-execute "set <F32>=˚"
-execute "set <F33>=¬"
+
+set <F30>=˙
+set <F31>=∆
+set <F32>=˚
+set <F33>=¬
 
 " Map Alt-hjkl to move cursor between splits
 nnoremap <F30> :wincmd h<CR>
@@ -30,10 +31,10 @@ inoremap <F32><F32><F32> <ESC>5<UP>i
 inoremap <F33><F33><F33> <ESC>5<RIGHT>i
 
 " Set F34-F37 to reference the character sent by Shift-Alt-hjkl
-execute "set <F34>=Ó"
-execute "set <F35>=Ô"
-execute "set <F36>="
-execute "set <F37>=Ò"
+set <F34>=Ó
+set <F35>=Ô
+set <F36>=
+set <F37>=Ò
 
 " Special movement
 inoremap <F34> <ESC>:call BracketMovement(0,1)<CR>
