@@ -81,7 +81,7 @@ case "$1" in
 
    push)
       
-      path="~/.dotfiles"
+      a="~/.dotfiles"
       xpath=${a%/*}
       xbase=${a##*/}
       xfext=${xbase##*.}
