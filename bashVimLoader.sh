@@ -119,7 +119,7 @@ case "$1" in
       cd ..
 
       echo "Cleaning up..."
-      sudo rm -r $dir
+      rm -rf $dir
       
       echo "Push Complete"
       ;;
