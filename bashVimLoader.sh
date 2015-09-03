@@ -81,6 +81,19 @@ case "$1" in
 
    push)
       
+      path="~/.dotfiles"
+      xpath=${a%/*}
+      xbase=${a##*/}
+      xfext=${xbase##*.}
+      xpref=${xbase%.*}
+
+      echo
+      echo path=${xpath}
+      echo base=${xbase}
+      echo pref=${xpref}
+      echo ext=${xfext}
+      echo
+
       # Names of the files, for use when adding to git commit
       FILE_NAMES=(.dotfiles .vimrc .vim bashVimLoader.sh)
       # Locations of the file, for use when copying them into clone 
@@ -103,10 +116,10 @@ case "$1" in
       echo "Copying files into cloned repo..."
       for file in ${FILE_LOCATIONS[@]}; do
          if [[ -e $file ]]; then
-            echo "Found file '$file' -> copying it"
+            echo "Found file '$file'"
             cp -r $file $dir
          else 
-            echo "Cannot find file '$file' -> skipping it"
+            echo "Cannot find file '$file'"
          fi
       done
 
@@ -123,8 +136,10 @@ case "$1" in
       echo "Adding, commiting, and pushing changes to cloned repo, if any..."
       cd $dir
       for file in ${FILE_NAMES[@]}; do
-         echo "Adding file '$file' to commit"
-         git add $file
+         if [[ -e $file ]]; then
+            echo "Adding file '$file' to commit"
+            git add $file
+         fi
       done
       git commit -m "Commit from script on $(date)"
       git push -u origin master
@@ -136,6 +151,7 @@ case "$1" in
      
       echo
       echo "Push Complete"
+      echo
       ;;
 
    *)
