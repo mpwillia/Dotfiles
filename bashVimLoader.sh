@@ -82,8 +82,7 @@ case "$1" in
 
    push)
       
-      #a="~/.dotfiles"
-      a=$0
+      a="test/path/.dotfiles.tar.gz"
       xpath=${a%/*}
       xbase=${a##*/}
       xfext=${xbase##*.}
