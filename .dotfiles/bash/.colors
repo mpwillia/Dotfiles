@@ -84,15 +84,11 @@ source "$DOTFILE_DIR/.easylscolors"
 #   export LS_COLORS='di=1;95:ln=1;35:so=1;31:pi=1;33:ex=1;32:bd=34:cd=34:su=0:sg=0:tw=0:ow=0:'
 #fi
 
-PROMPT_DIRTRIM=3   
-BASH_DIRTRIM=3
-
 # Prompt Coloring
 export PROMPT_COMMAND=__prompt_command
 
 function __prompt_command()
 {
-   
    local EXIT="$?"   #Needs to be first
    PS1=""
 

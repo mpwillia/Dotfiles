@@ -1,7 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/Users/mike/.ssh'
-let g:netrw_dirhist_2='/Users/mike/Documents/Developer/Project Euler/Problem1'
-let g:netrw_dirhist_3='/Users/mike/Documents/Developer/Project Euler'
-let g:netrw_dirhist_4='/Users/mike/Documents/Developer/Project Euler/Problem491'
-let g:netrw_dirhist_5='/Users/mike/.vim/bundle'
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/Users/mpwillia/cpe357/midterm'
+let g:netrw_dirhist_2='/Users/mpwillia/cpe357/midterm/midterm1'
+let g:netrw_dirhist_3='/home/mpwillia/cpe357/pointers'
+let g:netrw_dirhist_4='/home/mpwillia/cpe357'
+let g:netrw_dirhist_5='/home/mpwillia/cpe357/lzwproject/Compress/tests'
+let g:netrw_dirhist_6='/home/mpwillia/cpe357/linearsim/LinearSim'
+let g:netrw_dirhist_7='/home/mpwillia/cpe357/calculon/CalculonGiven'
