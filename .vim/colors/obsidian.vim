@@ -34,7 +34,6 @@ hi Normal           ctermfg=253             ctermbg=235
 hi Comment          guifg=#787775                                  gui=italic
 hi Comment          ctermfg=240                                     cterm=none
 
-
 " Constant Group
 " --------------
 " any constant
