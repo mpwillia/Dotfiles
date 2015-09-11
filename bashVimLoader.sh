@@ -46,7 +46,7 @@ case "$1" in
       git commit -m "Commit from script on $(date)"
       git push -u origin master
       cd ..
-      sudo rm -r $dir
+      rm -rf $dir
 
       ;;
 
