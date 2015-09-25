@@ -109,7 +109,7 @@ case "$1" in
       echo "Cleaning up..."
       cd .. 
       rm ./$archive
-      rm -r ./$expanded
+      #rm -r ./$expanded
       
       echo
       echo "Installation Complete"
