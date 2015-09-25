@@ -131,7 +131,8 @@ case "$1" in
       # xpref=${xbase%.*}     ->    .archive.tar
       
       #These are the files to push to the repo
-      PUSH_FILES=(~/.dotfiles ~/.vimrc ~/.vim $0)
+      #PUSH_FILES=(~/.dotfiles ~/.vimrc ~/.vim $0)
+      PUSH_FILES=(~/.dotfiles ~/.vim $0)
 
       #Clone into the github repo
       dir="./dotfiles"
