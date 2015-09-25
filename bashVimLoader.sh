@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set +H
 usage="Usage: ./bashVimLoader <install | restore | push>"
 
 if [[ $# != 1 ]]; then
@@ -61,7 +62,7 @@ case "$1" in
       echo
       echo "Expanding archive..."
       tar -xzvf ./$archive
-      cd ./$expanded
+      pushd ./$expanded
       ls
 
       BACKUP_DIR="~/dotfiles-backup"
@@ -107,7 +108,7 @@ case "$1" in
       #Delete everything we downloaded, made, or whatever
       echo
       echo "Cleaning up..."
-      cd .. 
+      popd
       rm ./$archive
       rm -r ./$expanded
       
@@ -141,6 +142,13 @@ case "$1" in
       echo "Cloning github repo..."
       git clone https://github.com/mpwillia/dotfiles
       dir="./dotfiles" 
+      pushd $dir     
+      shopt -u extglob
+      shopt -u dotglob
+      rm -rf "!(.git|README.md)"
+      shopt -s extglob
+      shopt -s dotglob
+      popd
       
       #Copy all the files we want to update into the clone
       echo
@@ -153,10 +161,10 @@ case "$1" in
             echo "Cannot find file '$file'"
          fi
       done
-
+      
+      pushd $dir
       echo
       echo "Adding, commiting, and pushing changes to cloned repo, if any..."
-      cd $dir
       for file in ${PUSH_FILES[@]}; do
          filebase=${file##*/}
          if [[ -e $filebase ]]; then
@@ -166,8 +174,8 @@ case "$1" in
       done
       git commit -m "Commit from script on $(date)"
       git push -u origin master
-      cd ..
-      
+      popd
+
       echo
       echo "Cleaning up..."
       #rm -rf $dir
