@@ -1,3 +1,4 @@
+
 function BetterCodeMovement(dir, mode)
    "dir
    "0 - up
