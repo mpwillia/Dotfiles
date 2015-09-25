@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set +H
 usage="Usage: ./bashVimLoader <install | restore | push>"
 
 if [[ $# != 1 ]]; then
@@ -143,13 +142,6 @@ case "$1" in
       echo "Cloning github repo..."
       git clone https://github.com/mpwillia/dotfiles
       dir="./dotfiles" 
-      pushd $dir     
-      shopt -u extglob
-      shopt -u dotglob
-      rm -rf "!(.git|README.md)"
-      shopt -s extglob
-      shopt -s dotglob
-      popd
       
       #Copy all the files we want to update into the clone
       echo
@@ -179,7 +171,7 @@ case "$1" in
 
       echo
       echo "Cleaning up..."
-      #rm -rf $dir
+      rm -rf $dir
      
       echo
       echo "Push Complete"
