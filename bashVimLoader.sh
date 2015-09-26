@@ -130,8 +130,8 @@ case "$1" in
       # xpref=${xbase%.*}     ->    .archive.tar
       
       #These are the files to push to the repo
-      #PUSH_FILES=(~/.dotfiles ~/.vimrc ~/.vim $0)
-      PUSH_FILES=(~/.dotfiles ~/.vim $0)
+      PUSH_FILES=(~/.dotfiles ~/.vimrc ~/.vim $0)
+      #PUSH_FILES=(~/.dotfiles ~/.vim $0)
 
       #Clone into the github repo
       dir="./dotfiles"
@@ -141,8 +141,18 @@ case "$1" in
       fi
       echo "Cloning github repo..."
       git clone https://github.com/mpwillia/dotfiles
-      dir="./dotfiles" 
       
+      pushd $dir
+      echo
+      shopt -s extglob
+      shopt -s dotglob
+      test=`echo !(.git|README.md)`
+      echo $test
+      rm -rf $test
+      shopt -u extglob
+      shopt -u dotglob
+      popd
+
       #Copy all the files we want to update into the clone
       echo
       echo "Copying files into cloned repo..."
@@ -154,7 +164,7 @@ case "$1" in
             echo "Cannot find file '$file'"
          fi
       done
-      
+
       pushd $dir
       echo
       echo "Adding, commiting, and pushing changes to cloned repo, if any..."
@@ -171,7 +181,7 @@ case "$1" in
 
       echo
       echo "Cleaning up..."
-      rm -rf $dir
+      #rm -rf $dir
      
       echo
       echo "Push Complete"
