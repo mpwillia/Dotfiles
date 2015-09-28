@@ -18,9 +18,9 @@ cleanup() {
    rm -rf $TEMPDIR
    echo
    if [[ $exitcode != 0 ]]; then
-      echo -e "\tFAILED"
+      echo -e "\tFAILED\n"
    else
-      echo -e "\tSUCCESS"
+      echo -e "\tSUCCESS\n"
    fi
 }
 trap "cleanup" EXIT
