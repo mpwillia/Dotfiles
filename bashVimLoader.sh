@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 usage="Usage: ./bashVimLoader <install | restore | push>"
 
@@ -6,6 +7,23 @@ if [[ $# != 1 ]]; then
    echo $usage
    exit 1
 fi
+
+#Setup tempdir along with cleanup trap
+TEMPDIR=`mktemp -d`
+echo "Temp directory setup at '$TEMPDIR'"
+
+cleanup() {
+   exitcode=$?
+   echo -e "\nCleaning up..."
+   rm -rf $TEMPDIR
+   echo
+   if [[ $exitcode != 0 ]]; then
+      echo -e "\tFAILED"
+   else
+      echo -e "\tSUCCESS"
+   fi
+}
+trap "cleanup" EXIT
 
 case "$1" in
    install)
@@ -37,12 +55,12 @@ case "$1" in
       case $COMMAND in
          wget)
             echo "$msg"
-            wget $url
+            wget -P $TEMPDIR $url
             ;;
 
          curl)
             echo "$msg"
-            curl -LO $url
+            (cd $TEMPDIR; curl -LO $url)
             ;;
 
          *)
@@ -60,13 +78,18 @@ case "$1" in
       #Expand and enter downloaded archive
       echo
       echo "Expanding archive..."
-      tar -xzvf ./$archive
-      pushd ./$expanded
-      ls
+      tar -xzvf $TEMPDIR/$archive -C $TEMPDIR
 
-      BACKUP_DIR="~/dotfiles-backup"
-      INSTALL_FILES=(~/.dotfiles ~/.vimrc ~/.vim) 
-      BASHRC="~/.bashrc"
+      #NOTE: We are now inside the expanded archive
+      #All the install files are in this directory, '.'
+      pushd $TEMPDIR/$expanded
+      echo
+
+      BACKUP_DIR="$HOME/dotfiles-backup"
+      INSTALL_DIR="$HOME/test"
+      BASHRC="$INSTALL_DIR/.bashrc"
+      INSTALL_FILES=(.dotfiles .vimrc .vim) 
+      BASHRC_APPEND="$INSTALL_DIR/.dotfiles/.bashrc_append"
       
       #Handle case of backup directory already existing
       if [[ -e $BACKUP_DIR ]]; then
@@ -89,36 +112,71 @@ case "$1" in
             esac
          done
 
-         if [[ $answer == yes ]]; then
+         if [[ $ANSWER == yes ]]; then
             rm -r $BACKUP_DIR
          else
             echo "Will not overwrite existing files without making a backup, either remove or copy the existing backup."
             exit 1
          fi
       fi
-
+      
       mkdir $BACKUP_DIR
 
       #Make backup of what's already there
+      echo
+      echo "Making backup..."
       for file in ${INSTALL_FILES[@]}; do
-         echo $file         
+         file=$HOME/$file
+         if [[ -e $file ]]; then
+            echo "Backing up file '$file'"
+            cp -r $file $BACKUP_DIR
+         fi
       done
-
-      #Delete everything we downloaded, made, or whatever
-      echo
-      echo "Cleaning up..."
-      popd
-      rm ./$archive
-      rm -r ./$expanded
+     
+      if [[ -e $BASHRC ]]; then
+         echo "Backing up file '$BASHRC'"
+         cp -r $BASHRC $BACKUP_DIR
+      fi
       
+      #Start installation
       echo
-      echo "Installation Complete"
-      echo
+      if [[ -e $INSTALL_DIR ]]; then
+         echo "Installing files to dir '$INSTALL_DIR'..."
+         #Install files - copy what we need to
+         for file in ${INSTALL_FILES[@]}; do
+            file=./$file
+            filename=${file##*/}
+            echo "Installing file '$filename'"
+            cp -r $file $INSTALL_DIR
+         done
+        
+         #Install files - update '.bashrc' if we need to
+         echo "Updating '$BASHRC'"
+         
+         append=`cat $BASHRC_APPEND`
+         
+         echo -e "\nCurrent bashrc:\n$cur_bashrc\n=============\nTo Append:\n$append\n============="
+        
+         echo
+         if grep -q "$append" "$BASHRC"; then
+            echo "Already appended!"
+         else
+            echo "Needs to be appended!"
+         fi
+
+         #cat "$BASHRC_APPEND" >> "$BASHRC"
+      else
+         echo "Cannot find install directory '$INSTALL_DIR'"
+         exit 1
+      fi
+      #exit
       ;;
+
 
    restore)
 
       ;;
+
 
    push)
 
@@ -131,7 +189,6 @@ case "$1" in
       
       #These are the files to push to the repo
       PUSH_FILES=(~/.dotfiles ~/.vimrc ~/.vim $0)
-      #PUSH_FILES=(~/.dotfiles ~/.vim $0)
 
       #Clone into the github repo
       dir="./dotfiles"
@@ -142,17 +199,18 @@ case "$1" in
       echo "Cloning github repo..."
       git clone https://github.com/mpwillia/dotfiles
       
+      #Delete files except for core git files
       pushd $dir
       echo
       shopt -s extglob
       shopt -s dotglob
-      test=`echo !(.git|README.md)`
-      echo $test
-      rm -rf $test
+      delFiles=`echo !(.git|README.md)`
+      echo $delFiles
+      rm -rf $delFiles
       shopt -u extglob
       shopt -u dotglob
       popd
-
+      
       #Copy all the files we want to update into the clone
       echo
       echo "Copying files into cloned repo..."
@@ -181,7 +239,7 @@ case "$1" in
 
       echo
       echo "Cleaning up..."
-      #rm -rf $dir
+      rm -rf $dir
      
       echo
       echo "Push Complete"
