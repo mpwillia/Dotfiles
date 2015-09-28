@@ -86,7 +86,8 @@ case "$1" in
       echo
 
       BACKUP_DIR="$HOME/dotfiles-backup"
-      INSTALL_DIR="$HOME/test"
+      #INSTALL_DIR="$HOME/test"
+      INSTALL_DIR="$HOME"
       BASHRC="$INSTALL_DIR/.bashrc"
       INSTALL_FILES=(.dotfiles .vimrc .vim) 
       BASHRC_APPEND="$INSTALL_DIR/.dotfiles/.bashrc_append"
@@ -151,25 +152,21 @@ case "$1" in
          done
         
          #Install files - update '.bashrc' if we need to
-         echo "Updating '$BASHRC'"
-         
-         append=`cat $BASHRC_APPEND`
-         
-         echo -e "\nCurrent bashrc:\n$cur_bashrc\n=============\nTo Append:\n$append\n============="
-        
          echo
+         echo "Updating '$BASHRC'..."
+         append=`cat $BASHRC_APPEND`
          if grep -q "$append" "$BASHRC"; then
-            echo "Already appended!"
+            echo ".bashrc already loads installed files"
          else
-            echo "Needs to be appended!"
+            echo "Setting .bashrc to load installed files"
+            cat "$BASHRC_APPEND" >> "$BASHRC"
          fi
-
-         #cat "$BASHRC_APPEND" >> "$BASHRC"
+         
+         exit
       else
          echo "Cannot find install directory '$INSTALL_DIR'"
          exit 1
       fi
-      #exit
       ;;
 
 
@@ -236,14 +233,6 @@ case "$1" in
       git commit -m "Commit from script on $(date)"
       git push -u origin master
       popd
-
-      echo
-      echo "Cleaning up..."
-      rm -rf $dir
-     
-      echo
-      echo "Push Complete"
-      echo
       ;;
 
    *)
