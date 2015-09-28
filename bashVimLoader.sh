@@ -188,14 +188,17 @@ case "$1" in
       PUSH_FILES=(~/.dotfiles ~/.vimrc ~/.vim $0)
 
       #Clone into the github repo
-      dir="./dotfiles"
+      dir="$TEMPDIR/dotfiles"
       if [[ -e $dir ]]; then  
          echo "$dir already exists, will not overwrite." 
          exit 1;
       fi
+
+      pushd $TEMPDIR
       echo "Cloning github repo..."
       git clone https://github.com/mpwillia/dotfiles
-      
+      popd
+
       #Delete files except for core git files
       pushd $dir
       echo
