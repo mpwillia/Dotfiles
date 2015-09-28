@@ -88,6 +88,8 @@ case "$1" in
       #INSTALL_DIR="$HOME/test"
       INSTALL_DIR="$HOME"
       BASHRC="$INSTALL_DIR/.bashrc"
+      BASH_PROFILE="$INSTALL_DIR/.bash_profile"
+      BASH_FILE=$BASH_PROFILE
       INSTALL_FILES=(.dotfiles .vimrc .vim) 
       BASHRC_APPEND="$INSTALL_DIR/.dotfiles/.bashrc_append"
       
@@ -133,9 +135,9 @@ case "$1" in
          fi
       done
      
-      if [[ -e $BASHRC ]]; then
-         echo "Backing up file '$BASHRC'"
-         cp -r $BASHRC $BACKUP_DIR
+      if [[ -e $BASH_FILE ]]; then
+         echo "Backing up file '$BASH_FILE'"
+         cp -r $BASH_FILE $BACKUP_DIR
       fi
       
       #Start installation
@@ -152,13 +154,13 @@ case "$1" in
         
          #Install files - update '.bashrc' if we need to
          echo
-         echo "Updating '$BASHRC'..."
+         echo "Updating '$BASH_FILE'..."
          append=`cat $BASHRC_APPEND`
-         if grep -q "$append" "$BASHRC"; then
-            echo ".bashrc already loads installed files"
+         if grep -q "$append" "$BASH_FILE"; then
+            echo "$BASH_FILE already loads installed files"
          else
-            echo "Setting .bashrc to load installed files"
-            cat "$BASHRC_APPEND" >> "$BASHRC"
+            echo "Setting $BASH_FILE to load installed files"
+            cat "$BASHRC_APPEND" >> "$BASH_FILE"
          fi
          
          exit
