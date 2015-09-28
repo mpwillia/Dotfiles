@@ -14,7 +14,6 @@ echo "Temp directory setup at '$TEMPDIR'"
 
 cleanup() {
    exitcode=$?
-   echo -e "\nCleaning up..."
    rm -rf $TEMPDIR
    echo
    if [[ $exitcode != 0 ]]; then
