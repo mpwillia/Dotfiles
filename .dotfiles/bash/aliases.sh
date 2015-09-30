@@ -57,7 +57,6 @@ alias dddb='mysql -u mpwillia -p DDDB2015Apr'
 
 alias numimgs='find .//. ! -name .png -print | grep -c //'
 
-
 # Show/Hide Hidden Files/Folders in OSX
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
