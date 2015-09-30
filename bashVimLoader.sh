@@ -11,7 +11,8 @@ if [[ $# != 1 ]]; then
 fi
 
 #Setup tempdir along with cleanup trap
-TEMPDIR=`mktemp -d`
+template=`basename $0` #OSX mktemp implementation requires a template name for some stupid reason
+TEMPDIR=`mktemp -d ${template}.XXXXXX`
 echo "Temp directory setup at '$TEMPDIR'"
 
 cleanup() {

@@ -56,3 +56,29 @@ alias unix4='ssh mpwillia@unix4.csc.calpoly.edu'
 alias dddb='mysql -u mpwillia -p DDDB2015Apr'
 
 alias numimgs='find .//. ! -name .png -print | grep -c //'
+
+
+# Show/Hide Hidden Files/Folders in OSX
+alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+
+#####################
+# DIGITAL DEMOCRACY #
+#####################
+
+# Faster ssh to Digital Democracy
+alias digidemDev='ssh -i ~/.ssh/amazon.pem mpwillia@development.digitaldemocracy.org'
+alias digidemTest='ssh -i ~/.ssh/amazon.pem mpwillia@test.digitaldemocracy.org'
+alias digidemStaging='ssh -i ~/.ssh/amazon.pem mpwillia@staging.digitaldemocracy.org'
+alias ddDev='digidemDev'
+alias ddTest='digidemTest'
+alias ddStaging='digidemStaging'
+
+# Faster sftp to Digital Democracy
+alias digidemDevSFTP='sftp -i ~/.ssh/amazon.pem mpwillia@development.digitaldemocracy.org'
+alias digidemTestSFTP='sftp -i ~/.ssh/amazon.pem mpwillia@test.digitaldemocracy.org'
+alias digidemStagingSFTP='sftp -i ~/.ssh/amazon.pem mpwillia@staging.digitaldemocracy.org'
+alias ddDevSFTP='digidemDevSFTP'
+alias ddTestSFTP='digidemTestSFTP'
+alias ddStagingSFTP='digidemStagingSFTP'
+
