@@ -1,6 +1,5 @@
 
 
-
 """"""""""""""""""""""""""""
 """ Global Path Variables
 """"""""""""""""""""""""""""
@@ -62,7 +61,10 @@ set ruler            "show cursor coordinates in status
 let java_allow_cpp_keywords = 1  "stop silly highlighting of C++ keywords in java code
 
 "treat our custom dotfiles as bash files for the sake of syntax highlighting
-au BufNewFile,BufRead .colors,.aliases,.mybashrc,.colortests,.easylscolors,.jdkswitcher call SetFileTypeSH("bash")
+"au BufNewFile,BufRead .colors,.aliases,.mybashrc,.colortests,.easylscolors,.jdkswitcher call SetFileTypeSH("bash")
+"au bufnewfile,bufread .aliases setfiletype bash
+"au bufnewfile,bufread .aliases call SetFileTypeSH("bash")
+
 
 " Line length notifiers
 "  despite what people say going over 80 characters is fine but you should

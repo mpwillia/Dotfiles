@@ -1,0 +1,4 @@
+#mpwillia bash files
+DOTFILE_DIR="${HOME}/.dotfiles/bash"
+source "$DOTFILE_DIR/.colors"
+source "$DOTFILE_DIR/.aliases"

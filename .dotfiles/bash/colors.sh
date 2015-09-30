@@ -54,7 +54,7 @@
 #  ShowColorFormatting()
 #
 
-source "$DOTFILE_DIR/.colortests"
+source "$DOTFILE_DIR/colortests.sh"
 
 ### Begin Actual Configuration
 
@@ -71,7 +71,7 @@ echo "${NUM_COLORS} colors"
 export CLICOLOR=1
 
 #source "$DOTFILE_DIR/.lscolors"
-source "$DOTFILE_DIR/.easylscolors"
+source "$DOTFILE_DIR/easylscolors.sh"
 
 
 # LSCOLORS is used by OSX and BSD
