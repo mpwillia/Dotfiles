@@ -16,7 +16,7 @@ let g:BASHFILES_DIR="$HOME/.dotfiles/bash"
 set encoding=utf-8
 
 " Tells vim about our custom bash aliases
-let aliasFile = g:BASHFILES_DIR . '/.aliases'
+let aliasFile = g:BASHFILES_DIR . '/aliases.sh'
 if !empty(glob(aliasFile))
    let $BASH_ENV = aliasFile
 else
