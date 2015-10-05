@@ -10,6 +10,8 @@ let g:BASHFILES_DIR="$HOME/.dotfiles/bash"
 """""""""""""""""""""""""""""
 """ Miscellaneous Settings
 """""""""""""""""""""""""""""
+set nocompatible
+
 " Fixes all sorts of encoding issues by just forcing utf-8 encoding everywhere
 " For example certain characters used by NERDTree plugin won't be displayed
 " properly which can not only look bad but break some functionality.
@@ -22,6 +24,10 @@ if !empty(glob(aliasFile))
 else
    echo "Cannot read bash aliases file '" . aliasFile . "'"
 endif
+
+" Enable cmdline tab auto completion
+set wildmode=list:longest
+set wildmenu   " use ctrl-n and ctrl-p to scroll through matches
 
 
 """""""""""""""""""""""""""""""""""""""""""""
@@ -44,7 +50,7 @@ set expandtab     "expand tabs into spaces
 set shiftwidth=3  "columns indented when reindenting
 set softtabstop=3 "size of normal tabs
 set tabstop=3     "global tab size
-
+set backspace=eol,start,indent   "set backspace to backspace as expected 
 
 """""""""""""
 """ Visual
@@ -54,11 +60,14 @@ colorscheme mpwillian
 set cursorline       "highlight the line the cursor is on 
 set laststatus=2     "always display the status line
 set linespace=0      "force no extra space between lines
-set scrolloff=10     "start scrolling 10 lines before the edge
-set sidescrolloff=10 "start scrolling 10 characters before the edge
+set scrolloff=7      "start scrolling 10 lines before the edge
+set sidescrolloff=7  "start scrolling 10 characters before the edge
 set number           "enable line numbers
 set ruler            "show cursor coordinates in status
 let java_allow_cpp_keywords = 1  "stop silly highlighting of C++ keywords in java code
+set lazyredraw       "enable lazy redrawing for slightly better performance
+set showmatch        "shows matching brackets 
+set mat=2            "how many tenths of a second to blink when showing matching brackets
 
 "treat our custom dotfiles as bash files for the sake of syntax highlighting
 "au BufNewFile,BufRead .colors,.aliases,.mybashrc,.colortests,.easylscolors,.jdkswitcher call SetFileTypeSH("bash")
@@ -89,6 +98,20 @@ if has("autocmd")
       autocmd Syntax * call matchadd('Note', '\W\zs\(NOTE\|INFO\|IDEA\):\?')
    endif
 endif
+
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+
+
+
+
+"""""""""""""""""""""
+""" Search/Replace
+"""""""""""""""""""""
+set gdefault   "by default, add g flag to search/replace. Add g to toggle
+set hlsearch   "highlight searches
+set incsearch  "move while searching
+set ignorecase "ignore case of searches
+set smartcase  "ignore 'ignorecase' if search pattern contains uppercase chars
 
 
 """"""""""""
@@ -145,6 +168,10 @@ noremap wq <Esc>:wq<CR>
 noremap qq <Esc>:q<CR>
 noremap ww <Esc>:w<CR>
 noremap wqa <Esc>:wqa<CR>
+
+" Move along lines visually
+nnoremap j gj
+nnoremap k gk
 
 " Faster movement
 inoremap <A-h><A-h><A-h> <ESC>5<LEFT>i
