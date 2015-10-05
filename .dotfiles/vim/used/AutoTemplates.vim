@@ -8,7 +8,7 @@ let g:TEMPLATES_DIR=g:VIMFILES_DIR . "/templates"
 autocmd bufnewfile test.sh exe "so " . g:TEMPLATES_DIR . "/testScript.txt"
 " With our test script we want to make sure we can execute it
 "autocmd bufwritepost test.sh exe "!chmod 700 test.sh"
-autocmd bufwritepost *.sh exe "!chmod 700 " . expand("%:p")
+autocmd bufwritepost *.sh silent exe "!chmod 700 " . expand("%:p")
 
 """ Java Files Template
 autocmd bufnewfile *.java exe "so " . g:TEMPLATES_DIR . "/java.txt"
