@@ -101,6 +101,33 @@ endif
 
 "set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
 
+"statusline setup
+"set statusline =%#identifier#
+"set statusline+=[%t]    "tail of the filename
+"set statusline+=%*
+"
+""display a warning if fileformat isnt unix
+"set statusline+=%#warningmsg#
+"set statusline+=%{&ff!='unix'?'['.&ff.']':''}
+"set statusline+=%*
+"
+""display a warning if file encoding isnt utf-8
+"set statusline+=%#warningmsg#
+"set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
+"set statusline+=%*
+"
+"set statusline+=%h      "help file flag
+"set statusline+=%y      "filetype
+"
+""read only flag
+"set statusline+=%#identifier#
+"set statusline+=%r
+"set statusline+=%*
+"
+""modified flag
+"set statusline+=%#identifier#
+"set statusline+=%m
+"set statusline+=%*
 
 
 
