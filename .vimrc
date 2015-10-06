@@ -100,6 +100,33 @@ if has("autocmd")
 endif
 
 "set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+"set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
+
+"This is default statusline
+"set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+
+"set statusline=%<%F       "the path to the open file
+"set statusline+=\ %h         "help file flag
+"set statusline+=%m         "modified flag
+"
+"set statusline+=%#warningmsg#
+"set statusline+=%r         "read only flag
+"set statusline+=%*
+"
+"set statusline+=%=         "switch to right justified
+"set statusline+=%-14.(%l,%c%V%)  "x,y coord of cursor
+"set statusline+=\ %p%%       "percent through file
+
+"set statusline=%<%F\           "the path to the open file
+"set statusline+=%y           "type of file
+"set statusline+=%m           "modified flag
+"set statusline+=%r           "read only flag 
+"set statusline+=[%{&ff}]
+"
+"set statusline+=%=            "switch to right side of status line
+"set statusline+=[%l,%c%V]\    "x,y coord of cursor
+"set statusline+=[%p%%]\       "percent through file
+"set statusline+=[%L]\         "total lines in the file
 
 "statusline setup
 "set statusline =%#identifier#
