@@ -53,6 +53,9 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_aggregate_errors = 1
 
+" set syntastic javac classpath command for Digital Democracy project files
+"autocmd bufnewfile,bufread */src/digidem/* let g:syntastic_java_javac_custom_classpath_command = "./test.sh path"
+
 """""""""""""""""""""""""""""""""""""""""""""
 """ Load external custom vim files/scripts
 """""""""""""""""""""""""""""""""""""""""""""
@@ -70,11 +73,13 @@ endfor
 """"""""""""""""""
 set autoindent    "enable auto indent
 set expandtab     "expand tabs into spaces
-set shiftwidth=2  "columns indented when reindenting
-set softtabstop=2 "size of normal tabs
-set tabstop=2     "global tab size
+set shiftwidth=3  "columns indented when reindenting
+set softtabstop=3 "size of normal tabs
+set tabstop=3     "global tab size
 set backspace=eol,start,indent   "set backspace to backspace as expected 
 
+" For Digital Democracy Code Style
+call AddIndentationStyle("dd-FacialRecognition", 3)
 
 """""""""""""
 """ Visual
@@ -188,6 +193,7 @@ set timeout timeoutlen=1000 timeoutlen=200
 inoremap jk <Esc>
 vnoremap jk <Esc>
 
+
 " Faster closing/saving of files
 noremap wq <Esc>:wq<CR> 
 noremap qq <Esc>:q<CR>
@@ -240,6 +246,9 @@ map <F1> :echo "high<" . synIDattr(synID(line("."),col("."),1),"name") . '> tran
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> low<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+
+" Enables F2 to toggle paste mode
+set pastetoggle=<F2>
 
 """"""""""""""""""""""""""""""""""""""""""""
 """ Compilation and execution keybindings
