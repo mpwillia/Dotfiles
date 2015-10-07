@@ -191,13 +191,13 @@ call s:HI("Typedef", 115, -1, "none")
 " any special symbol
 call s:HI("Special", 181, -1, "none")
 " special character in a constant
-call s:HI("Special", 181, -1, "none")
+call s:HI("SpecialChar", 181, -1, "none")
 " things you can CTRL-]
-call s:HI("Special", 181, -1, "none")
+call s:HI("Tag", 181, -1, "none")
 " character that needs attention
-call s:HI("Special", 181, -1, "none")
+call s:HI("Delimiter", 181, -1, "none")
 " special things inside a comment
-call s:HI("Special", 181, -1, "none")
+call s:HI("SpecialComment", 181, -1, "none")
 " debugging statements
 call s:HI("Debug", 181, "NONE", "none")
 
@@ -331,11 +331,30 @@ call s:HI("StatusLine", 254, 237, "bold")
 " status line for non-current windows
 call s:HI("StatusLineNC", 244, 237, "none")
 
+
+" red
+call s:HI("SLRed", 167, 237, "bold")
+" orange
+call s:HI("SLOrange", 173, 237, "bold")
+" blue
+call s:HI("SLBlue", 110, 237, "bold")
+" cyan
+call s:HI("SLCyan", 117, 237, "bold")
+" teal
+call s:HI("SLTeal", 115, 237, "bold")
+" green
+call s:HI("SLGreen", 150, 237, "bold")
+" pink
+call s:HI("SLPink", 181, 237, "bold")
+
+
 " status line notices
 call s:HI("SLNotice", 110, 237, "bold")
 
 " status line warning message
 call s:HI("SLWarning", 173, 237, "bold")
+call s:HI("SLWarning2", 181, 237, "bold")
+
 
 "status line errors
 call s:HI("SLError", 167, 237, "bold")

@@ -9,22 +9,32 @@ function! s:Push(element, hl)
 endfunction
 
 call s:Push("%<%-0.50F", "")
-call s:Push("\ %y%h%r", "")
+call s:Push("\ %y", "")
+call s:Push("%r", "SLWarning")
+call s:Push("%h%w", "SLWarning2")
 call s:Push("%m", "SLWarning")
+call s:Push("%5.(▎%)", "StatusLineNC")
 
-call s:Push("%=", "")
-call s:Push("%-14.(%l,%c%V%)", "")
-call s:Push("\ %p%%", "")
-
-
-"call s:Push("%y", "Directory")
-"call s:Push("%y", "Special")
-"call s:Push("%y", "Type")
-"call s:Push("%y", "Character")
-"call s:Push("%y", "Keyword")
-"call s:Push("%y","SLNotice")
+"set statusline+=%{&paste?'[paste]':'}'
+"call s:Push("%y", "SLRed")
+"call s:Push("%y", "SLOrange")
+"call s:Push("%y", "SLBlue")
+"call s:Push("%y", "SLCyan")
+"call s:Push("%y", "SLTeal")
+"call s:Push("%y", "SLGreen")
+"call s:Push("%y", "SLPink")
+"call s:Push("%y", "SLNotice")
 "call s:Push("%y", "SLWarning")
 "call s:Push("%y", "SLError")
+
+call s:Push("%=", "")
+call s:Push("%-20.{&paste?'-- PASTE MODE --':''}", "SLNotice")
+call s:Push("%-4.(▎%)", "StatusLineNC")
+call s:Push("%-10.(%l,%c%V%)", "")
+call s:Push("%4.4p%%", "")
+call s:Push("%7.L\ Lines\ ", "")
+
+
 
 "set statusline=%<%F       "the path to the open file
 "set statusline+=\ %h         "help file flag
