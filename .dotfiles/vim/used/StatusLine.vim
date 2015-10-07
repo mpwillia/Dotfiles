@@ -13,7 +13,8 @@ call s:Push("\ %y", "")
 call s:Push("%r", "SLWarning")
 call s:Push("%h%w", "SLWarning2")
 call s:Push("%m", "SLWarning")
-call s:Push("%5.(▎%)", "StatusLineNC")
+call s:Push("%3.(▎%)", "StatusLineNC")
+call s:Push("%18.{&paste?'-- PASTE MODE --':''}\ ", "SLNotice")
 
 "set statusline+=%{&paste?'[paste]':'}'
 "call s:Push("%y", "SLRed")
@@ -28,8 +29,10 @@ call s:Push("%5.(▎%)", "StatusLineNC")
 "call s:Push("%y", "SLError")
 
 call s:Push("%=", "")
-call s:Push("%-20.{&paste?'-- PASTE MODE --':''}", "SLNotice")
-call s:Push("%-4.(▎%)", "StatusLineNC")
+
+call s:Push("%{SyntasticStatuslineFlag()}", "SLError")
+call s:Push("%-3.(\ %)", "")
+call s:Push("%-3.(▎%)", "StatusLineNC")
 call s:Push("%-10.(%l,%c%V%)", "")
 call s:Push("%4.4p%%", "")
 call s:Push("%7.L\ Lines\ ", "")

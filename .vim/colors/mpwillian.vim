@@ -261,7 +261,8 @@ call s:HI("ErrorMsg", 196, "NONE", "none")
 " column separating vertically split windows
 call s:HI("VertSplit", 242, 237, "none")
 " columns where signs are displayed (used in IDEs)
-call s:HI("SignColumn", 145, 233, "none")
+"call s:HI("SignColumn", 145, 233, "none")
+call s:HI("SignColumn", -1, "bg", "none")
 " line numbers
 call s:HI("LineNr", 102, 237, "")
 " match parenthesis, brackets
@@ -378,3 +379,7 @@ call s:HI("VisualNOS", "fg", -1, "underline")
 
 
 
+" Plugin Highlighting
+" -------------------
+" syntastic error sign
+hi link SyntasticErrorSign ErrorMsg

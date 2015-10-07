@@ -30,6 +30,29 @@ set wildmode=list:longest
 set wildmenu   " use ctrl-n and ctrl-p to scroll through matches
 
 
+""""""""""""""
+""" Plugins
+""""""""""""""
+" enable pathogen plugin loader
+execute pathogen#infect()
+
+"" NERDTree
+autocmd vimenter * NERDTree      "enable NERDTree
+" map Ctrl-D to toggle NERDTree
+map <C-d> :NERDTreeToggle<CR>   
+let g:NERDTreeWinSize=16         "set the width of the NERDTree window
+let NERDTreeShowHidden=1         "show hidden files
+autocmd vimenter * wincmd w      "when a file is opened set focus to the newly opened file rather than NERDTree
+" if NERDTree is the last window opened then exit
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+"" Syntastic
+let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_aggregate_errors = 1
+
 """""""""""""""""""""""""""""""""""""""""""""
 """ Load external custom vim files/scripts
 """""""""""""""""""""""""""""""""""""""""""""
@@ -105,58 +128,6 @@ endif
 
 "This is default statusline
 "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-
-"set statusline=%<%F       "the path to the open file
-"set statusline+=\ %h         "help file flag
-"set statusline+=%m         "modified flag
-"
-"set statusline+=%#warningmsg#
-"set statusline+=%r         "read only flag
-"set statusline+=%*
-"
-"set statusline+=%=         "switch to right justified
-"set statusline+=%-14.(%l,%c%V%)  "x,y coord of cursor
-"set statusline+=\ %p%%       "percent through file
-
-"set statusline=%<%F\           "the path to the open file
-"set statusline+=%y           "type of file
-"set statusline+=%m           "modified flag
-"set statusline+=%r           "read only flag 
-"set statusline+=[%{&ff}]
-"
-"set statusline+=%=            "switch to right side of status line
-"set statusline+=[%l,%c%V]\    "x,y coord of cursor
-"set statusline+=[%p%%]\       "percent through file
-"set statusline+=[%L]\         "total lines in the file
-
-"statusline setup
-"set statusline =%#identifier#
-"set statusline+=[%t]    "tail of the filename
-"set statusline+=%*
-"
-""display a warning if fileformat isnt unix
-"set statusline+=%#warningmsg#
-"set statusline+=%{&ff!='unix'?'['.&ff.']':''}
-"set statusline+=%*
-"
-""display a warning if file encoding isnt utf-8
-"set statusline+=%#warningmsg#
-"set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
-"set statusline+=%*
-"
-"set statusline+=%h      "help file flag
-"set statusline+=%y      "filetype
-"
-""read only flag
-"set statusline+=%#identifier#
-"set statusline+=%r
-"set statusline+=%*
-"
-""modified flag
-"set statusline+=%#identifier#
-"set statusline+=%m
-"set statusline+=%*
-
 
 
 """""""""""""""""""""
@@ -271,23 +242,6 @@ map <F1> :echo "high<" . synIDattr(synID(line("."),col("."),1),"name") . '> tran
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 
-""""""""""""""
-""" Plugins
-""""""""""""""
-" enable pathogen plugin loader
-execute pathogen#infect()
-
-"" NERDTree
-autocmd vimenter * NERDTree      "enable NERDTree
-" map Ctrl-D to toggle NERDTree
-map <C-d> :NERDTreeToggle<CR>   
-let g:NERDTreeWinSize=16         "set the width of the NERDTree window
-let NERDTreeShowHidden=1         "show hidden files
-autocmd vimenter * wincmd w      "when a file is opened set focus to the newly opened file rather than NERDTree
-" if NERDTree is the last window opened then exit
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-
 """"""""""""""""""""""""""""""""""""""""""""
 """ Compilation and execution keybindings
 """"""""""""""""""""""""""""""""""""""""""""
@@ -312,4 +266,5 @@ noremap <F8> :wa<CR> :!clear<CR> :!./test.sh<CR>
 " nor do the Unix servers have
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
+
 
