@@ -9,13 +9,22 @@ function! s:Push(element, hl)
 endfunction
 
 call s:Push("%<%-0.50F", "")
-call s:Push("\ %h", "")
-call s:Push("%m", "warningmsg")
-call s:Push("%r", "")
+call s:Push("\ %y%h%r", "")
+call s:Push("%m", "SLWarning")
 
 call s:Push("%=", "")
 call s:Push("%-14.(%l,%c%V%)", "")
 call s:Push("\ %p%%", "")
+
+
+"call s:Push("%y", "Directory")
+"call s:Push("%y", "Special")
+"call s:Push("%y", "Type")
+"call s:Push("%y", "Character")
+"call s:Push("%y", "Keyword")
+"call s:Push("%y","SLNotice")
+"call s:Push("%y", "SLWarning")
+"call s:Push("%y", "SLError")
 
 "set statusline=%<%F       "the path to the open file
 "set statusline+=\ %h         "help file flag

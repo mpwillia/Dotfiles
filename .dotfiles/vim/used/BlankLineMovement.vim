@@ -1,10 +1,10 @@
 
-function BlankLineMovement(dir, mode)
+function! BlankLineMovement(dir, mode)
    "dir
    "0 - up
    "1 - down
 
-   let jumpLine = FindJumpLine(a:dir)
+   let jumpLine = s:FindJumpLine(a:dir)
   
    call setpos(".", [0, jumpLine, col("."), 0])
   
@@ -13,7 +13,7 @@ function BlankLineMovement(dir, mode)
    endif
 endfunction
 
-function FindJumpLine(dir)
+function! s:FindJumpLine(dir)
    
    let startLineIdx = line(".")
    if a:dir == 0
@@ -25,12 +25,12 @@ function FindJumpLine(dir)
       endif
 
       "we want to ignore any adjacent blank lines
-      while IsLineBlank(getline(i)) > 0 && i > 0
+      while s:IsLineBlank(getline(i)) > 0 && i > 0
          let i -= 1
       endwhile
 
       while i > 0
-         if IsLineBlank(getline(i)) > 0
+         if s:IsLineBlank(getline(i)) > 0
             return i
          endif
          let i -= 1
@@ -48,12 +48,12 @@ function FindJumpLine(dir)
       endif
 
       "we want to ignore any adjacent blank lines
-      while IsLineBlank(getline(i)) > 0 && i < numLines
+      while s:IsLineBlank(getline(i)) > 0 && i < numLines
          let i += 1
       endwhile
 
       while i < numLines
-         if IsLineBlank(getline(i)) > 0
+         if s:IsLineBlank(getline(i)) > 0
             return i
          endif
          let i += 1
@@ -63,7 +63,7 @@ function FindJumpLine(dir)
    return startLineIdx
 endfunction
 
-function IsLineBlank(line)
+function! s:IsLineBlank(line)
    let i = 0
    while i < len(a:line)
       if a:line[i] != ' '

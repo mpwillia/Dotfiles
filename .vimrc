@@ -52,6 +52,7 @@ set softtabstop=3 "size of normal tabs
 set tabstop=3     "global tab size
 set backspace=eol,start,indent   "set backspace to backspace as expected 
 
+
 """""""""""""
 """ Visual
 """""""""""""
@@ -221,6 +222,7 @@ vnoremap jk <Esc>
 noremap wq <Esc>:wq<CR> 
 noremap qq <Esc>:q<CR>
 noremap ww <Esc>:w<CR>
+noremap wa <Esc>:wa<CR>
 noremap wqa <Esc>:wqa<CR>
 
 " Move along lines visually
@@ -252,6 +254,9 @@ nnoremap <A-L> <ESC>:call BracketMovement(1,0)<CR>
 
 " Disable the creation of non-breaking spaces with Alt-<SPACE>
 inoremap <A-SPACE> <SPACE>
+
+" Saves open files and Reloads our .vimrc
+command! Reload wa | source $MYVIMRC
 
 " Maps F1 to a somewhat useful vim debugging command which prints the syntax
 " highlighting group currently used at the item under the cursor.

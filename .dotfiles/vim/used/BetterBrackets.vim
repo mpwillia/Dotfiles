@@ -5,28 +5,27 @@ inoremap "" "<LEFT>"
 inoremap [] ]<LEFT>[
 inoremap '' '<LEFT>'
 inoremap <lt>> ><LEFT><
-inoremap {} <ESC>:call BetterCurlyBrace()<CR>
+inoremap {} <ESC>:call s:BetterCurlyBrace()<CR>
 
 
-function BetterCurlyBrace()
+function! s:BetterCurlyBrace()
    "0 - don't open
    "1 - K&R
    "2 - Allman
-   let shouldOpen = ShouldOpenCurlyBrace() 
+   let shouldOpen = s:ShouldOpenCurlyBrace() 
 
    " Write curly braces
-   call WriteCurlyBrace(shouldOpen)
+   call s:WriteCurlyBrace(shouldOpen)
 
    startinsert
 endfunction
 
 
-
 " Writes the curly braces, open if needed
-function WriteCurlyBrace(type)
+function! s:WriteCurlyBrace(type)
    if a:type == 1
       " K&R
-      "let lastCharCol = GetLastCharCol(getline("."))
+      "let lastCharCol = s:GetLastCharCol(getline("."))
       "call setpos(".", [0, line("."), lastCharCol, 0])
       "execute "normal a }\<LEFT>{\<CR>\<CR>\<UP>\<TAB> "
 
@@ -35,7 +34,7 @@ function WriteCurlyBrace(type)
    elseif a:type == 2
       " Allman
       "let prevline = getline(line(".")-1)
-      "let lastCharCol = GetLastCharCol(prevline)
+      "let lastCharCol = s:GetLastCharCol(prevline)
       "call setpos(".", [0, line(".")-1, lastCharCol, 0])
       "execute "normal a}\<LEFT>{\<LEFT>\<CR>\<RIGHT>\<CR>\<CR>\<UP>\<TAB> "
       
@@ -53,7 +52,7 @@ endfunction
 
 " Returns the column of the last non-whitespace character in the given line
 " returns the index position of the last character
-function GetLastCharCol(line)
+function! s:GetLastCharCol(line)
    let lineLen = strlen(a:line)
    let i = lineLen - 1
 
@@ -67,25 +66,25 @@ endfunction
 
 " Checks if curly braces should be opened
 " Returns 1 if K&R check passes; 2 if Allman check passes; otherwise 0
-function ShouldOpenCurlyBrace()
+function! s:ShouldOpenCurlyBrace()
    let curLine = getline(".")
    let prevLine = getline(line(".")-1)
    let curIdx = col(".")
 
    " If there are chacters after the cursor then we shouldn't open the braces no matter what
-   if CheckWhitespace(curLine, curIdx) == 0
+   if s:CheckWhitespace(curLine, curIdx) == 0
       return 0
    endif
 
    " K&R - curLine key + curLine NOT empty
-   if CheckWhitespace(curLine, 0) == 0
-      if CheckAllKeys(curLine, curIdx) > 0
+   if s:CheckWhitespace(curLine, 0) == 0
+      if s:CheckAllKeys(curLine, curIdx) > 0
          return 1 
       endif
 
    " Allman - curLine empty + prevLine key
-   elseif CheckWhitespace(curLine, 0) > 0
-      if CheckAllKeys(prevLine, strlen(prevLine)) > 0
+   elseif s:CheckWhitespace(curLine, 0) > 0
+      if s:CheckAllKeys(prevLine, strlen(prevLine)) > 0
          return 2
       endif
    endif
@@ -95,7 +94,7 @@ endfunction
 
 " Given the line check it against our lists of valid keys
 " If we find the key in a valid position return 1; otherwise 0
-function CheckAllKeys(line, index)
+function! s:CheckAllKeys(line, index)
   
    " TODO make these more accessible, rather than in the middle of a random
    " function put these at, for example, the top of the file.
@@ -117,7 +116,7 @@ function CheckAllKeys(line, index)
    " Check for endKeys in line
    let i = 0
    while i < len(endKeys)
-      let keyIdx = FindKey(a:line, get(endKeys, i), a:index)
+      let keyIdx = s:FindKey(a:line, get(endKeys, i), a:index)
 
       if keyIdx > bestKeyIdx
          let bestKeyIdx = keyIdx
@@ -128,7 +127,7 @@ function CheckAllKeys(line, index)
    
    " If we found an end key we need to check if its at the end of the line
   if bestKeyIdx >= 0
-      if CheckWhitespace(a:line, bestKeyIdx) > 0
+      if s:CheckWhitespace(a:line, bestKeyIdx) > 0
          return 1 
       endif
    endif
@@ -139,7 +138,7 @@ function CheckAllKeys(line, index)
 
    let i = 0
    while i < len(globalKeys)
-      let keyIdx = FindKey(a:line, get(globalKeys, i), strlen(a:line))
+      let keyIdx = s:FindKey(a:line, get(globalKeys, i), strlen(a:line))
 
       if keyIdx > bestKeyIdx
          let bestKeyIdx = keyIdx
@@ -156,7 +155,7 @@ endfunction
 
 " Checks for any whitespace in line at index to the end of the line
 " returns 1 if there is only whitespace; 0 if there are any other characters
-function CheckWhitespace(line, index)
+function! s:CheckWhitespace(line, index)
    let i = a:index
    while i < strlen(a:line)
       if a:line[i] != ' '
@@ -169,12 +168,12 @@ endfunction
 
 " Searches through line looking for any matches to key
 " returns the end index of where the key was found; otherwise -1
-function FindKey(line, key, curIdx)
+function! s:FindKey(line, key, curIdx)
    let keyLen = strlen(a:key)
    let lineIdx = a:curIdx - keyLen
    
    while lineIdx >= 0
-      if DoesKeyMatch(a:line, a:key, lineIdx)
+      if s:DoesKeyMatch(a:line, a:key, lineIdx)
          return lineIdx+keyLen
       endif
 
@@ -186,7 +185,7 @@ endfunction
 
 " Checks if the given key matches the characters in line starting at index
 " Returns 1 if key matches; 0 otherwise
-function DoesKeyMatch(line, key, index)
+function! s:DoesKeyMatch(line, key, index)
    let keyIdx = 0
    while keyIdx < strlen(a:key)
       if a:key[keyIdx] != a:line[a:index + keyIdx]

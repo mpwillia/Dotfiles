@@ -1,6 +1,4 @@
 
-"Enables the :HexDump <filename> command to open up a scratch buffer and dump
-"the contents of <filename> as hexadecimal
 command! -complete=shellcmd -nargs=+ HexDump call s:HexDumpFile(<q-args>)
 function! s:HexDumpFile(args)
    botright new
