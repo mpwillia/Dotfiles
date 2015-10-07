@@ -70,9 +70,9 @@ endfor
 """"""""""""""""""
 set autoindent    "enable auto indent
 set expandtab     "expand tabs into spaces
-set shiftwidth=3  "columns indented when reindenting
-set softtabstop=3 "size of normal tabs
-set tabstop=3     "global tab size
+set shiftwidth=2  "columns indented when reindenting
+set softtabstop=2 "size of normal tabs
+set tabstop=2     "global tab size
 set backspace=eol,start,indent   "set backspace to backspace as expected 
 
 
@@ -183,7 +183,6 @@ inoremap <A-l> <RIGHT>
 " Set our keycode timeout to 150ms
 set timeout timeoutlen=1000 timeoutlen=200
 "TODO Different timeouts for different keycodes?
-
 
 " rebind <Esc> to jk
 inoremap jk <Esc>

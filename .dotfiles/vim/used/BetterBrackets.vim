@@ -10,8 +10,8 @@ inoremap {} <ESC>:call BetterCurlyBrace()<CR>
 
 function! BetterCurlyBrace()
    "0 - don't open
-   "1 - K&R
-   "2 - Allman
+   "1 - K&R (same line)
+   "2 - Allman (next line)
    let shouldOpen = ShouldOpenCurlyBrace() 
 
    " Write curly braces
@@ -25,30 +25,41 @@ endfunction
 function! WriteCurlyBrace(type)
    if a:type == 1
       " K&R
+      "NOTE: why did we stop using this again?
       "let lastCharCol = GetLastCharCol(getline("."))
       "call setpos(".", [0, line("."), lastCharCol, 0])
       "execute "normal a }\<LEFT>{\<CR>\<CR>\<UP>\<TAB> "
-
-      execute "normal A }\<LEFT>{\<CR>\<CR>\<UP>\<TAB> "
+      
+      "NOTE: 2nd iteration
+      "execute "normal A }\<LEFT>{\<CR>\<CR>\<UP>\<TAB> "
+    
+      "NOTE: 3rd/current iteration
+      "puts cursor to the last character in the line so we can write the curly
+      "braces with proper tabbing
+      call setpos(".", [0, line("."), GetLastCharCol(getline(".")), 0])
+      execute "normal a }\<LEFT>{\<CR>\<CR>\<UP>\<TAB> "
 
    elseif a:type == 2
       " Allman
+      "NOTE: don't quite remember why we stopped using this
       "let prevline = getline(line(".")-1)
       "let lastCharCol = GetLastCharCol(prevline)
       "call setpos(".", [0, line(".")-1, lastCharCol, 0])
       "execute "normal a}\<LEFT>{\<LEFT>\<CR>\<RIGHT>\<CR>\<CR>\<UP>\<TAB> "
       
+      "NOTE: 2nd iteration, totally should have documented this :)
       if line(".") == line("$")
          execute "normal dd A}\<LEFT>{\<LEFT>\<CR>\<RIGHT>\<CR>\<CR>\<UP>\<TAB> "
       else 
          execute "normal dd\<UP>A}\<LEFT>{\<LEFT>\<CR>\<RIGHT>\<CR>\<CR>\<UP>\<TAB> "
       endif
-
    else
       " Don't open
       execute "normal a}\<LEFT>{\<RIGHT>"
+      "call setline(".", "TEST")
    endif
 endfunction
+
 
 " Returns the column of the last non-whitespace character in the given line
 " returns the index position of the last character
