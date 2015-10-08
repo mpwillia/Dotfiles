@@ -8,22 +8,51 @@ inoremap <lt>> ><LEFT><
 inoremap {} <ESC>:call BetterCurlyBrace()<CR>
 
 
+" Whether or not to force a certain bracket style
+" 0 - don't force
+" 1 - force K&R style brackets
+" 2 - force Allman style brackets
+
+if !exists('g:better_brackets_enforce_style')
+   let g:better_brackets_enforce_style = 0
+endif
+let g:better_brackets_enforce_style = 1
+
+
 function! BetterCurlyBrace()
    "0 - don't open
    "1 - K&R (same line)
    "2 - Allman (next line)
-   let shouldOpen = ShouldOpenCurlyBrace() 
+   let l:shouldOpen = ShouldOpenCurlyBrace() 
+   
+   "Kinda works
+   "TODO: Need to maintain spacing between statement and next lines
+   "if g:better_brackets_enforce_style == 1 && shouldOpen == 2 
+   "   call setpos(".", [0, line(".")-1, col("."), 0])
+   "   let shouldOpen = g:better_brackets_enforce_style
+   "elseif g:better_brackets_enforce_style == 2 && shouldOpen == 1
+   "   call setpos(".", [0, line(".")+1, col("."), 0])
+   "   let shouldOpen = g:better_brackets_enforce_style
+   "endif
+   
+   let l:force = 0
+   if l:shouldOpen > 0 && g:better_brackets_enforce_style > 0
+      if l:shouldOpen != g:better_brackets_enforce_style
+         let l:shouldOpen = g:better_brackets_enforce_style
+         let l:force = 1
+      endif
+   endif
 
    " Write curly braces
-   call WriteCurlyBrace(shouldOpen)
+   call WriteCurlyBrace(l:shouldOpen, l:force)
 
    startinsert
 endfunction
 
 
 " Writes the curly braces, open if needed
-function! WriteCurlyBrace(type)
-   if a:type == 1
+function! WriteCurlyBrace(type, force)
+   if a:type == 1 
       " K&R
       "NOTE: why did we stop using this again?
       "let lastCharCol = GetLastCharCol(getline("."))
@@ -36,7 +65,16 @@ function! WriteCurlyBrace(type)
       "NOTE: 3rd/current iteration
       "puts cursor to the last character in the line so we can write the curly
       "braces with proper tabbing
-      call setpos(".", [0, line("."), GetLastCharCol(getline(".")), 0])
+      "call setpos(".", [0, line("."), GetLastCharCol(getline(".")), 0])
+      "execute "normal a }\<LEFT>{\<CR>\<CR>\<UP>\<TAB> "
+      
+      "NOTE: 4th/current iteration
+      let l:linepos = line(".")
+      if a:force > 0
+         let l:linepos -= 1
+      endif
+
+      call setpos(".", [0, l:linepos, GetLastCharCol(getline(l:linepos)), 0])
       execute "normal a }\<LEFT>{\<CR>\<CR>\<UP>\<TAB> "
 
    elseif a:type == 2
@@ -47,6 +85,10 @@ function! WriteCurlyBrace(type)
       "call setpos(".", [0, line(".")-1, lastCharCol, 0])
       "execute "normal a}\<LEFT>{\<LEFT>\<CR>\<RIGHT>\<CR>\<CR>\<UP>\<TAB> "
       
+      if a:force > 0
+         execute "normal A\<CR>\<ESC>"
+      endif
+
       "NOTE: 2nd iteration, totally should have documented this :)
       if line(".") == line("$")
          execute "normal dd A}\<LEFT>{\<LEFT>\<CR>\<RIGHT>\<CR>\<CR>\<UP>\<TAB> "
