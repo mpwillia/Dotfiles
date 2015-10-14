@@ -54,7 +54,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_aggregate_errors = 1
 
 " set syntastic javac classpath command for Digital Democracy project files
-"autocmd bufnewfile,bufread */src/digidem/* let g:syntastic_java_javac_custom_classpath_command = "./test.sh path"
+autocmd bufnewfile,bufread */src/digidem/* let g:syntastic_java_javac_custom_classpath_command = "./test.sh path"
 
 """""""""""""""""""""""""""""""""""""""""""""
 """ Load external custom vim files/scripts
@@ -79,7 +79,7 @@ set tabstop=3     "global tab size
 set backspace=eol,start,indent   "set backspace to backspace as expected 
 
 " For Digital Democracy Code Style
-call AddIndentationStyle("dd-FacialRecognition", 3)
+"call AddIndentationStyle("dd-FacialRecognition", 3)
 
 """""""""""""
 """ Visual
@@ -96,7 +96,7 @@ set ruler            "show cursor coordinates in status
 let java_allow_cpp_keywords = 1  "stop silly highlighting of C++ keywords in java code
 set lazyredraw       "enable lazy redrawing for slightly better performance
 set showmatch        "shows matching brackets 
-set mat=2            "how many tenths of a second to blink when showing matching brackets
+set mat=1            "how many tenths of a second to blink when showing matching brackets
 
 "treat our custom dotfiles as bash files for the sake of syntax highlighting
 "au BufNewFile,BufRead .colors,.aliases,.mybashrc,.colortests,.easylscolors,.jdkswitcher call SetFileTypeSH("bash")
@@ -233,6 +233,9 @@ inoremap <A-SPACE> <SPACE>
 
 " Saves open files and Reloads our .vimrc
 command! Reload wa | source $MYVIMRC
+command! -nargs=1 TestFunc execute "execute \"Reload\" | echo " . <f-args>
+""noremap <F3> @:
+noremap <F3> :TestFunc <UP><CR>
 
 " Maps F1 to a somewhat useful vim debugging command which prints the syntax
 " highlighting group currently used at the item under the cursor.
