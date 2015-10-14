@@ -2,18 +2,22 @@
 
 
 
-"if exists("loaded_indellect")
-"   finish
-"endif
+if exists("loaded_indellect")
+   finish
+endif
 let loaded_indellect = 1
 
 autocmd BufRead * call AutoDetectIndent()
 
+function! SetIndent(indent)
+   "echo "Setting indentation width to " . a:indent
+   execute "setlocal shiftwidth=" . a:indent . " softtabstop=" . a:indent . " tabstop=" . a:indent
+endfunction
+
 function! AutoDetectIndent()
    let g:indent = DetectIndent()
    if g:indent > 0
-      echo "Setting indentation width to " . g:indent
-      execute "setlocal shiftwidth=" . g:indent . " softtabstop=" . g:indent . " tabstop=" . g:indent
+      call SetIndent(g:indent)
    endif
 endfunction
 
