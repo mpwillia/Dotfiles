@@ -153,16 +153,38 @@ function silent() {
 # Faster ssh to Digital Democracy
 alias digidemDev='ssh -i ~/.ssh/amazon.pem mpwillia@development.digitaldemocracy.org'
 alias digidemTest='ssh -i ~/.ssh/amazon.pem mpwillia@test.digitaldemocracy.org'
-alias digidemStaging='ssh -i ~/.ssh/amazon.pem mpwillia@staging.digitaldemocracy.org'
+#alias digidemStaging='ssh -i ~/.ssh/amazon.pem mpwillia@staging.digitaldemocracy.org'
+alias digidemStaging='ssh -i ~/.ssh/amazon.pem mpwillia@52.33.64.32'
+function digidemZeus() {
+   output=`host -W 1 zues.ored.calpoly.edu`
+   if [[ $? != 0 ]]; then
+      echo "Off Campus, Going through unix2.csc.calpoly.edu"
+      ssh -t mpwillia@unix2.csc.calpoly.edu ssh -i /home/mpwillia/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
+   else
+      ssh -i ~/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
+   fi
+}
 alias ddDev='digidemDev'
 alias ddTest='digidemTest'
 alias ddStaging='digidemStaging'
+alias ddZeus='digidemZeus'
 
 # Faster sftp to Digital Democracy
 alias digidemDevSFTP='sftp -i ~/.ssh/amazon.pem mpwillia@development.digitaldemocracy.org'
 alias digidemTestSFTP='sftp -i ~/.ssh/amazon.pem mpwillia@test.digitaldemocracy.org'
-alias digidemStagingSFTP='sftp -i ~/.ssh/amazon.pem mpwillia@staging.digitaldemocracy.org'
+#alias digidemStagingSFTP='sftp -i ~/.ssh/amazon.pem mpwillia@staging.digitaldemocracy.org'
+alias digidemStagingSFTP='sftp -i ~/.ssh/amazon.pem mpwillia@52.33.64.32'
+function digidemZeusSFTP() {
+   output=`host -W 1 zues.ored.calpoly.edu`
+   if [[ $? != 0 ]]; then
+      echo "Off Campus, Going through unix2.csc.calpoly.edu"
+      ssh -t mpwillia@unix2.csc.calpoly.edu sftp -oIdentityFile=/home/mpwillia/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
+   else
+      sftp -i ~/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
+   fi
+}
 alias ddDevSFTP='digidemDevSFTP'
 alias ddTestSFTP='digidemTestSFTP'
 alias ddStagingSFTP='digidemStagingSFTP'
+alias ddZeusSFTP='digidemZeusSFTP'
 
