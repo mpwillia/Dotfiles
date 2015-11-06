@@ -49,7 +49,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 "" Syntastic
 let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_aggregate_errors = 1
 
@@ -138,7 +138,7 @@ endif
 """""""""""""""""""""
 """ Search/Replace
 """""""""""""""""""""
-set gdefault   "by default, add g flag to search/replace. Add g to toggle
+"set gdefault   "by default, add g flag to search/replace. Add g to toggle
 set hlsearch   "highlight searches
 set incsearch  "move while searching
 set ignorecase "ignore case of searches
@@ -233,6 +233,15 @@ inoremap <A-SPACE> <SPACE>
 
 " Saves open files and Reloads our .vimrc
 command! Reload wa | source $MYVIMRC
+cabbrev reload Reload
+cabbrev rl Reload
+
+" Saves open files and Reloads our .bash_profile
+command! Resource wa | execute "silent !silent source ~/.bash_profile" | redraw!
+cabbrev resource Resource
+cabbrev rs Resource
+
+" Intended to test the given vimscript function, Reloads .vimrc, then executes the function
 command! -nargs=1 TestFunc execute "execute \"Reload\" | echo " . <f-args>
 ""noremap <F3> @:
 noremap <F3> :TestFunc <UP><CR>

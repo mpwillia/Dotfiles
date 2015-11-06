@@ -4,6 +4,13 @@
 "Enables the command :Shell to open up a scratch buffer with the output of any
 "given shell command, also saves the currently open files.
 command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+
+"Quick abbreviations for the Shell command
+cabbrev shell Shell
+cabbrev Sh Shell
+cabbrev sh Shell
+
+"Runs the given shell command and prints the output in a temporary scratch buffer
 function! s:RunShellCommand(cmdline)
    
    "Just echo the command back

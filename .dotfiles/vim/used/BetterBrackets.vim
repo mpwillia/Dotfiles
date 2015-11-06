@@ -156,7 +156,7 @@ function! CheckAllKeys(line, index)
    " endKeys are keys that will only trigger when they are at the end of the
    " line, indicated by their position being less than the cursors position
    " and only whitespace characters trailing them
-   let endKeys = [')', 'else', 'try', 'finally', 'static']
+   let endKeys = [')', 'else', 'try', 'finally', 'static', 'const']
 
    " globalKeys are keys that will trigger at any position in the line as long
    " as they occur before the cursors position
