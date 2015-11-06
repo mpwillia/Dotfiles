@@ -92,7 +92,7 @@ case "$1" in
       BASHRC="$INSTALL_DIR/.bashrc"
       BASH_PROFILE="$INSTALL_DIR/.bash_profile"
       BASH_FILE=$BASH_PROFILE
-      INSTALL_FILES=(.dotfiles .vimrc .vim) 
+      INSTALL_FILES=(.dotfiles .inputrc .vimrc .vim) 
       BASHRC_APPEND="$INSTALL_DIR/.dotfiles/.bashrc_append"
       
       #Handle case of backup directory already existing
@@ -188,7 +188,7 @@ case "$1" in
       # xpref=${xbase%.*}     ->    .archive.tar
       
       #These are the files to push to the repo
-      PUSH_FILES=(~/.dotfiles ~/.vimrc ~/.vim $0)
+      PUSH_FILES=(~/.dotfiles ~/.inputrc ~/.vimrc ~/.vim $0)
 
       #Clone into the github repo
       dir="$TEMPDIR/dotfiles"
