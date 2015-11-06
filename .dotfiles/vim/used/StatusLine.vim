@@ -30,7 +30,7 @@ call s:Push("%18.{&paste?'-- PASTE MODE --':''}\ ", "SLNotice")
 
 call s:Push("%=", "")
 
-call s:Push("%{SyntasticStatuslineFlag()}", "SLError")
+"call s:Push("%{SyntasticStatuslineFlag()}", "SLError")
 call s:Push("%-3.(\ %)", "")
 call s:Push("%-3.(▎%)", "StatusLineNC")
 call s:Push("%-10.(%l,%c%V%)", "")
