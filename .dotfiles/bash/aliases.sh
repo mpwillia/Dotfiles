@@ -158,9 +158,10 @@ alias digidemStaging='ssh -i ~/.ssh/amazon.pem mpwillia@52.33.64.32'
 function digidemZeus() {
    output=`host -W 1 zues.ored.calpoly.edu`
    if [[ $? != 0 ]]; then
-      echo "Off Campus, Going through unix2.csc.calpoly.edu"
+      echo "Off Campus; Going through unix2.csc.calpoly.edu"
       ssh -t mpwillia@unix2.csc.calpoly.edu ssh -i /home/mpwillia/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
    else
+      echo "On Campus; Connecting directly"
       ssh -i ~/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
    fi
 }
@@ -177,9 +178,10 @@ alias digidemStagingSFTP='sftp -i ~/.ssh/amazon.pem mpwillia@52.33.64.32'
 function digidemZeusSFTP() {
    output=`host -W 1 zues.ored.calpoly.edu`
    if [[ $? != 0 ]]; then
-      echo "Off Campus, Going through unix2.csc.calpoly.edu"
+      echo "Off Campus; Going through unix2.csc.calpoly.edu"
       ssh -t mpwillia@unix2.csc.calpoly.edu sftp -oIdentityFile=/home/mpwillia/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
    else
+      echo "On Campus; Connecting directly"
       sftp -i ~/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
    fi
 }
