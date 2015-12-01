@@ -14,6 +14,7 @@ fi
 # ls aliases
 alias lsa='ls -a'
 alias lsl='lsa -l'
+alias lsd='ls -d */'
 
 # history aliases
 alias h='history'
@@ -62,10 +63,20 @@ function cd.. () {
    fi
 } 
 
+# Quick pushing/popping dirs
+alias +='pushd'
+alias -- -='popd'
+alias ?='dirs -v'
 
 # Date and time - these are in theory useful but I never actually use them
 alias now='date +"%T"'
 alias nowdate='date +"%d-%m-%Y"'
+
+# lists all of the bash binds
+alias binds='bind -P | grep -v "is not" | sed -e "s/can be found on/:/" | column -s: -t'
+
+# simple calculator
+=() { echo $(($*)); }
 
 # Faster compression/decompression
 alias compress='tar -zcvf'
