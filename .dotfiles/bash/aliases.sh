@@ -156,6 +156,15 @@ function silent() {
 #
 #} 
 
+function ds() {
+   if [[ $# < 1 ]]; then
+      du -h --max-depth=1
+   elif [[ $1 =~ ^[0-9]+$ ]]; then
+      du -h --max-depth=$1
+   else
+      du -h $*
+   fi
+} 
 
 #####################
 # DIGITAL DEMOCRACY #
