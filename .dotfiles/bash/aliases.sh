@@ -19,11 +19,7 @@ alias lsd='ls -d */'
 # history aliases
 alias h='history'
 alias hg='history | grep'
-function hv() {
-   eval $(eval "echo $(hg vim | grep -m 1 $1) | grep -o \"vim.*\"")
-}
 
-# easier creation/unpacking of .tar.gz
 
 # cd aliases
 #alias cd..='cd ..'
@@ -63,6 +59,10 @@ function cd.. () {
    fi
 } 
 
+alias mkdirs='mkdir -p'
+alias rmr='rm -rI'
+
+
 # Quick pushing/popping dirs
 alias +='pushd'
 alias -- -='popd'
@@ -81,15 +81,6 @@ alias binds='bind -P | grep -v "is not" | sed -e "s/can be found on/:/" | column
 # Faster compression/decompression
 alias compress='tar -zcvf'
 alias expand='tar -zxvf'
-
-# Faster ssh to CalPoly unix servers
-alias unix1='ssh mpwillia@unix1.csc.calpoly.edu'
-alias unix2='ssh mpwillia@unix2.csc.calpoly.edu'
-alias unix3='ssh mpwillia@unix3.csc.calpoly.edu'
-alias unix4='ssh mpwillia@unix4.csc.calpoly.edu'
-
-# Faster connection to DigiDem MySQL database
-alias dddb='mysql -u mpwillia -p DDDB2015Apr'
 
 # Finds the number of .png images in the current directory
 alias numimgs='find .//. ! -name .png -print | grep -c //'
@@ -114,6 +105,36 @@ function silent() {
    done
    silent_output=$($cmd)
 } 
+
+# Useful wrapper for du
+# Arguments:
+#  - None   -  Gets the size of the files and directories in the current directory, calls 'du -h --max-depth=1'
+#  - First argument is a number  -  changes the depth, so calling 'ds 2' would set the depth to 2, equivelant to 'du -h --max-depth=2' 
+#  - First argument is not a number -  Simply calls 'du' with the arguments given, always uses -h flag
+function ds() {
+   if [[ $# < 1 ]]; then
+      du -h --max-depth=1
+   elif [[ $1 =~ ^[0-9]+$ ]]; then
+      du -h --max-depth=$1
+   else
+      du -h $*
+   fi
+} 
+
+# Quick wrapper to print harddrive device info
+function hdinfo() {
+   if [[ $# < 1 ]]; then
+      echo "hdinfo: no device name given!"
+      return 1
+   fi
+   arg=$1
+   arg=${arg#/dev}
+   arg=${arg#/}
+   sudo hdparm -I /dev/$arg 
+} 
+
+alias cpuinfo='cat /proc/cpuinfo'
+alias meminfo='cat /proc/meminfo'
 
 # Creates a backup of the given file or directory name
 # files are renamed to 'filename.backup' 
@@ -145,30 +166,19 @@ function silent() {
 #}
 
 
-# makes the default du 
-#function du() {
-#   if [[ $# < 1 ]]; then
-#      echo "special default du"
-#      du
-#   else
-#      echo "normal du"
-#   fi
-#
-#} 
 
-function ds() {
-   if [[ $# < 1 ]]; then
-      du -h --max-depth=1
-   elif [[ $1 =~ ^[0-9]+$ ]]; then
-      du -h --max-depth=$1
-   else
-      du -h $*
-   fi
-} 
+# Faster ssh to CalPoly unix servers
+alias unix1='ssh mpwillia@unix1.csc.calpoly.edu'
+alias unix2='ssh mpwillia@unix2.csc.calpoly.edu'
+alias unix3='ssh mpwillia@unix3.csc.calpoly.edu'
+alias unix4='ssh mpwillia@unix4.csc.calpoly.edu'
 
 #####################
 # DIGITAL DEMOCRACY #
 #####################
+
+# Faster connection to DigiDem MySQL database
+alias dddb='mysql -u mpwillia -p DDDB2015Apr'
 
 # Faster ssh to Digital Democracy
 alias digidemDev='ssh -i ~/.ssh/amazon.pem mpwillia@development.digitaldemocracy.org'
