@@ -18,6 +18,20 @@ if !exists('g:better_brackets_enforce_style')
 endif
 let g:better_brackets_enforce_style = 1
 
+" TODO make these more accessible, rather than in the middle of a random
+" function put these at, for example, the top of the file.
+
+""" THESE ARE THE KEYS THAT DETERMINE WHEN TO OPEN CURLY BRACES 
+" endKeys are keys that will only trigger when they are at the end of the
+" line, indicated by their position being less than the cursors position
+" and only whitespace characters trailing them
+let s:endKeys = [')', 'else', 'try', 'finally', 'static', 'const', 'namespace']
+
+" globalKeys are keys that will trigger at any position in the line as long
+" as they occur before the cursors position
+let s:globalKeys = ['class', 'interface', 'enum', 'struct', 'throws']
+
+
 
 function! BetterCurlyBrace()
    "0 - don't open
@@ -149,18 +163,6 @@ endfunction
 " If we find the key in a valid position return 1; otherwise 0
 function! CheckAllKeys(line, index)
   
-   " TODO make these more accessible, rather than in the middle of a random
-   " function put these at, for example, the top of the file.
-
-   """ THESE ARE THE KEYS THAT DETERMINE WHEN TO OPEN CURLY BRACES 
-   " endKeys are keys that will only trigger when they are at the end of the
-   " line, indicated by their position being less than the cursors position
-   " and only whitespace characters trailing them
-   let endKeys = [')', 'else', 'try', 'finally', 'static', 'const']
-
-   " globalKeys are keys that will trigger at any position in the line as long
-   " as they occur before the cursors position
-   let globalKeys = ['class', 'interface', 'enum', 'struct', 'throws']
   
    
    let keyIdx = -1
@@ -168,8 +170,8 @@ function! CheckAllKeys(line, index)
 
    " Check for endKeys in line
    let i = 0
-   while i < len(endKeys)
-      let keyIdx = FindKey(a:line, get(endKeys, i), a:index)
+   while i < len(s:endKeys)
+      let keyIdx = FindKey(a:line, get(s:endKeys, i), a:index)
 
       if keyIdx > bestKeyIdx
          let bestKeyIdx = keyIdx
@@ -190,8 +192,8 @@ function! CheckAllKeys(line, index)
    let bestKeyIdx = -1
 
    let i = 0
-   while i < len(globalKeys)
-      let keyIdx = FindKey(a:line, get(globalKeys, i), strlen(a:line))
+   while i < len(s:globalKeys)
+      let keyIdx = FindKey(a:line, get(s:globalKeys, i), strlen(a:line))
 
       if keyIdx > bestKeyIdx
          let bestKeyIdx = keyIdx

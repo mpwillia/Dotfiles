@@ -59,14 +59,26 @@ function cd.. () {
    fi
 } 
 
-alias mkdirs='mkdir -p'
-alias rmr='rm -rI'
-
-
 # Quick pushing/popping dirs
 alias +='pushd'
 alias -- -='popd'
 alias ?='dirs -v'
+
+
+# Makes directory and all parent directories as needed
+alias mkdirs='mkdir -p'
+
+# Recursively removes the given file, asks for confirmation for improved safety
+alias rmr='rm -rI'
+
+# Symbolic Links
+alias symlink='ln -s'
+alias sln='symlink'
+
+# Quicker calls to python and python3
+alias py='python'
+alias py3='python3'
+
 
 # Date and time - these are in theory useful but I never actually use them
 alias now='date +"%T"'
@@ -121,7 +133,7 @@ function ds() {
    fi
 } 
 
-# Quick wrapper to print harddrive device info
+# Quick wrapper to print hard drive device info
 function hdinfo() {
    if [[ $# < 1 ]]; then
       echo "hdinfo: no device name given!"
@@ -132,6 +144,15 @@ function hdinfo() {
    arg=${arg#/}
    sudo hdparm -I /dev/$arg 
 } 
+
+# Gets the size of the given hard drive device
+function hdsize() {
+   info=$(hdinfo $*)
+   info=${info##*device size with M}
+   info=${info%%cache/buffer size*}
+   info=${info##*: }
+   echo $info
+}
 
 alias cpuinfo='cat /proc/cpuinfo'
 alias meminfo='cat /proc/meminfo'
