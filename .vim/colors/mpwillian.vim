@@ -115,6 +115,8 @@ call s:HI("Comment", 240, -1, "none")
 call s:HI("Todo", 228, "NONE", "underline")
 " note tags
 call s:HI("Note", 246, "NONE", "underline")
+" removal tags, old, bad, remove, delete
+call s:HI("RemoveNote", 173, "NONE", "underline")
 
 
 " Constant Group

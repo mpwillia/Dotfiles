@@ -123,8 +123,10 @@ endif
 if has("autocmd")
   " Highlight TODO, FIXME, NOTE, etc.
    if v:version > 701
-      autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|XXX\|BUG\|HACK\):\?')
+      "autocmd Syntax * call
+      autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|XXX\|BUG\|HACK\|???\):\?')
       autocmd Syntax * call matchadd('Note', '\W\zs\(NOTE\|INFO\|IDEA\):\?')
+      autocmd Syntax * call matchadd('RemoveNote', '\W\zs\(OLD\|BAD\|REMOVE\|DELETE\|DEPRECATED\):\?')
    endif
 endif
 

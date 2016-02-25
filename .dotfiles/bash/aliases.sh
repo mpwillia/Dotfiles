@@ -61,6 +61,7 @@ function cd.. () {
 
 # Quick pushing/popping dirs
 alias +='pushd'
+alias +.='+ .'
 alias -- -='popd'
 alias ?='dirs -v'
 
@@ -156,6 +157,14 @@ function hdsize() {
 
 alias cpuinfo='cat /proc/cpuinfo'
 alias meminfo='cat /proc/meminfo'
+
+#/sys/devices/virtual/dmi/id/
+#alias moboinfo='cat /sys/devices/virtual/dmi/id/board_vendor /sys/devices/virtual/dmi/id/board_name /sys/devices/virtual/dmi/id/board_version'
+alias moboinfo='echo -e "Vendor: $(cat /sys/devices/virtual/dmi/id/board_vendor)\nProduct: $(cat /sys/devices/virtual/dmi/id/board_name)\nVersion: $(cat /sys/devices/virtual/dmi/id/board_version)"'
+
+#alias biosinfo='cat /sys/devices/virtual/dmi/id/bios_*'
+alias biosinfo='echo -e "Vendor: $(cat /sys/devices/virtual/dmi/id/bios_vendor)\nDate: $(cat /sys/devices/virtual/dmi/id/bios_date)\nVersion: $(cat /sys/devices/virtual/dmi/id/bios_version)"'
+
 
 # Creates a backup of the given file or directory name
 # files are renamed to 'filename.backup' 
