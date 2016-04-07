@@ -45,7 +45,8 @@ inoremap <F27> <ESC>:call BracketMovement(1,1)<CR>
 nnoremap <F27> <ESC>:call BracketMovement(1,0)<CR>
 
 
-
+vnoremap <F25> <ESC>:call BlankLineMovement(1,2)<CR>
+vnoremap <F26> <ESC>:call BlankLineMovement(0,2)<CR>
 
 
 

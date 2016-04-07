@@ -37,7 +37,7 @@ set wildmenu   " use ctrl-n and ctrl-p to scroll through matches
 execute pathogen#infect()
 
 "" NERDTree
-autocmd vimenter * NERDTree      "enable NERDTree
+"autocmd vimenter * NERDTree      "enable NERDTree
 " map Ctrl-D to toggle NERDTree
 map <C-d> :NERDTreeToggle<CR>   
 let g:NERDTreeWinSize=16         "set the width of the NERDTree window
@@ -174,6 +174,8 @@ noremap <silent> <C-l> <C-w>>
 "TODO Map someshit to move splits around
 
 
+command! Scratch execute "vertical botright new | setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nonumber"
+
 """"""""""""""""""""""
 """ Insert Movement
 """"""""""""""""""""""
@@ -218,6 +220,11 @@ nnoremap jjj 5<DOWN>
 nnoremap kkk 5<UP>
 nnoremap lll 5<RIGHT>
 
+vnoremap hhh 5<LEFT>
+vnoremap jjj 5<DOWN>
+vnoremap kkk 5<UP>
+vnoremap lll 5<RIGHT>
+
 " Special movement
 inoremap <A-H> <ESC>:call BracketMovement(0,1)<CR>
 nnoremap <A-H> <ESC>:call BracketMovement(0,0)<CR>
@@ -227,6 +234,9 @@ inoremap <A-K> <ESC>:call BlankLineMovement(0,1)<CR>
 nnoremap <A-K> <ESC>:call BlankLineMovement(0,0)<CR>
 inoremap <A-L> <ESC>:call BracketMovement(1,1)<CR>
 nnoremap <A-L> <ESC>:call BracketMovement(1,0)<CR>
+
+vnoremap <A-J> <ESC>:call BlankLineMovement(1,2)<CR>
+vnoremap <A-K> <ESC>:call BlankLineMovement(0,2)<CR>
 
 " TODO enable non-breaking spaces for file types where they would be useful
 

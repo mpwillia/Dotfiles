@@ -65,7 +65,6 @@ alias +.='+ .'
 alias -- -='popd'
 alias ?='dirs -v'
 
-
 # Makes directory and all parent directories as needed
 alias mkdirs='mkdir -p'
 
@@ -78,6 +77,8 @@ alias sln='symlink'
 
 # Quicker calls to python and python3
 alias py='python'
+alias py26='python2.6'
+alias py27='python2.7'
 alias py3='python3'
 
 
@@ -91,9 +92,32 @@ alias binds='bind -P | grep -v "is not" | sed -e "s/can be found on/:/" | column
 # simple calculator
 =() { echo $(($*)); }
 
-# Faster compression/decompression
-alias compress='tar -zcvf'
-alias expand='tar -zxvf'
+# Faster and more descriptive compression/decompression
+function compress() {
+   if [[ $# == 2 ]]; then
+      tar -zcvf $1 $2
+   else
+      echo "invalid arguments, expects:"
+      echo "compress <output archive name> <input file name>"
+   fi
+} 
+#alias compress='tar -zcvf'
+      #NOTE: These are ways to parse string file paths with pure bash
+      # path="example/path/.archive.tar.gz"
+      # xpath=${path%/*}      ->    example/path
+      # xbase=${path##*/}     ->    .archive.tar.gz
+      # xfext=${xbase##*.}    ->    .gz
+      # xpref=${xbase%.*}     ->    .archive.tar
+# expands the given archive using the appropriate expansion program based on the file extension
+function expand() {
+   if [[ $# == 1 ]]; then 
+      tar -zxvf $1
+   else
+      echo "invalid arguments, expects:"
+      echo "expand <archive name>" 
+   fi
+} 
+#alias expand='tar -zxvf'
 
 # Finds the number of .png images in the current directory
 alias numimgs='find .//. ! -name .png -print | grep -c //'
@@ -126,11 +150,11 @@ function silent() {
 #  - First argument is not a number -  Simply calls 'du' with the arguments given, always uses -h flag
 function ds() {
    if [[ $# < 1 ]]; then
-      du -h --max-depth=1
+      du -ah --max-depth=1
    elif [[ $1 =~ ^[0-9]+$ ]]; then
-      du -h --max-depth=$1
+      du -ah --max-depth=$1
    else
-      du -h $*
+      du -ah $*
    fi
 } 
 
@@ -155,6 +179,7 @@ function hdsize() {
    echo $info
 }
 
+alias distinfo='cat /etc/*-release'
 alias cpuinfo='cat /proc/cpuinfo'
 alias meminfo='cat /proc/meminfo'
 
@@ -164,36 +189,6 @@ alias moboinfo='echo -e "Vendor: $(cat /sys/devices/virtual/dmi/id/board_vendor)
 
 #alias biosinfo='cat /sys/devices/virtual/dmi/id/bios_*'
 alias biosinfo='echo -e "Vendor: $(cat /sys/devices/virtual/dmi/id/bios_vendor)\nDate: $(cat /sys/devices/virtual/dmi/id/bios_date)\nVersion: $(cat /sys/devices/virtual/dmi/id/bios_version)"'
-
-
-# Creates a backup of the given file or directory name
-# files are renamed to 'filename.backup' 
-# dirs are compressed and renamed to 'filename.backup'
-#function backup() {
-#   if [[ $# < 1 ]]; then
-#      echo "no file given"
-#      return 1
-#   fi
-#
-#   while [[ $# > 0 ]]; do
-#      file=$1
-#      if [[ -d $file ]]; then
-#         # directory backup
-#         echo "Backing up directory '$file'"
-#         tar -zcf $file.backup $file
-#         echo "Directory backed up to '$file.backup'"
-#      elif [[ -e $file ]]; then
-#         # file backup
-#         echo "Backing up file '$file'"
-#         mv $file $file.backup
-#         echo "File backed up to '$file.backup'"
-#      else
-#         echo "Cannot find file named '$file'"
-#         return 1
-#      fi
-#      shift
-#   done
-#}
 
 
 
@@ -249,4 +244,22 @@ alias ddDevSFTP='digidemDevSFTP'
 alias ddTestSFTP='digidemTestSFTP'
 alias ddStagingSFTP='digidemStagingSFTP'
 alias ddZeusSFTP='digidemZeusSFTP'
+
+
+# Just useful commands for moving to and from dd-data
+function dddataset() {
+   if [[ $# > 0 && $1 =~ ^[0-9]+$ ]]; then
+      cd "/dd-data/dataset/dd-dataset/dd-dataset-$1"
+   else
+      cd "/dd-data/dataset"
+   fi
+} 
+alias ddimages='cd /dd-data/ddimages' 
+alias ddmodels='cd /dd-data/models'
+alias ddvideos='cd /dd-data/videos'
+alias ddsrc='cd /home/mpwillia/Development/dd-FacialRecognition'
+
+
+
+
 

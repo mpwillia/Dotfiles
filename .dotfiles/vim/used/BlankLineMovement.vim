@@ -3,15 +3,84 @@ function! BlankLineMovement(dir, mode)
    "dir
    "0 - up
    "1 - down
-
    let jumpLine = FindJumpLine(a:dir)
   
-   call setpos(".", [0, jumpLine, col("."), 0])
-  
-   if a:mode == 1
-      startinsert
+   let jumpPos = [0, jumpLine, col("."), 0]
+
+   if a:mode == 2
+      let startVis = getpos("'<")
+      let endVis = getpos("'>")
+
+      " are we expanding or shrinking the selection? 0 - shrink, 1 - expand, -1 - clear, 2 - stepover
+      let expanding = 0
+      
+      if line(".") > line("'<") && jumpLine < line("'<")
+         let expanding = 0
+      elseif line(".") < line("'>") && jumpLine > line("'>")
+         let expanding = 0
+      elseif jumpLine < line("'<") || jumpLine > line("'>")
+         let expanding = 1
+      elseif jumpLine == line("'<") || jumpLine == line("'>")
+         let expanding = -1
+      endif
+
+      " up
+      if a:dir == 0
+         if expanding == 0
+            call SetVisualSelection(startVis, jumpPos)
+         elseif expanding == 1
+            call SetVisualSelection(endVis, jumpPos)
+         else
+            call SetVisualSelection(jumpPos, jumpPos)
+         endif
+
+      " down
+      elseif a:dir == 1
+         if expanding == 0
+            call SetVisualSelection(endVis, jumpPos)
+         elseif expanding == 1
+            call SetVisualSelection(startVis, jumpPos)
+         else
+            call SetVisualSelection(jumpPos, jumpPos)
+         endif
+      endif
+
+      "" up
+      "if a:dir == 0 
+      "   if getline(".") >= getline("'<")
+      "      call setpos(".", endVis)
+      "   else
+      "      call setpos(".", startVis)
+      "   endif
+      "" down
+      "elseif a:dir == 1
+      "   if getline(".") <= getline("'>")
+      "      call setpos(".", startVis)
+      "   else
+      "      call setpos(".", endVis)
+      "   endif
+      "endif
+
+      "normal v
+      "call setpos(".", [0, jumpLine, col("."), 0])
+
+   else  
+      call setpos(".", [0, jumpLine, col("."), 0])
+      if a:mode == 1
+         startinsert
+      endif
    endif
+
 endfunction
+
+function! SetVisualSelection(start, end)
+   call setpos("'<", a:start)
+   call setpos("'>", a:end)
+   call setpos(".", a:start)
+   normal! v
+   call setpos(".", a:end)
+endfunction
+
 
 function! FindJumpLine(dir)
    
