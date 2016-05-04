@@ -92,15 +92,69 @@ alias binds='bind -P | grep -v "is not" | sed -e "s/can be found on/:/" | column
 # simple calculator
 =() { echo $(($*)); }
 
+
+# compression algs
+# Single Threaded | Parallel
+#  gzip           |  pigz
+#  bzip2          |  lbzip2, pbzip2
+#  xz             |  pxz
+#  zip            
+#  lzip           |  plzip
+GZ_ALGS=(pigz gzip)
+BZ2_ALGS=(lbzip2 pbzip2 bzip2)
+XZ_ALGS=(pxz zx)
+ZIP_ALGS=(zip)
+
+function optimal_compression_alg() {
+   if [[ $# != 1 ]]; then
+      echo "Expected a compression format; eg: 'gz','bz2','xz'"
+      return 1
+   else
+      case "$1" in
+         gz) CHECK_ALGS=$GZ_ALGS ;;
+         bz2) CHECK_ALGS=$BZ2_ALGS ;;
+         xz) CHECK_ALGS=$XZ_ALGS ;;
+         zip) CHECK_ALGS=$ZIP_ALGS ;;
+         *)
+            echo "Unknown Compression Format '$1'"
+            return 1
+            ;;
+      esac
+
+      for alg in ${CHECK_ALGS[@]}; do
+         if [[ -n $(command -v $alg) && $? == 0 ]]; then
+            echo $alg
+            return 0
+         fi
+      done
+   fi
+   return 1
+} 
+
+
 # Faster and more descriptive compression/decompression
 function compress() {
    if [[ $# == 2 ]]; then
-      tar -zcvf $1 $2
+      alg=$(optimal_compression_alg gz)
+      if [[ $? -ne 0 ]]; then
+         tar -zcvf $1 $2
+      else
+         tar -cv --use-compress-program=$alg -f $1 $2
+      fi
+   elif [[ $# == 3 ]]; then
+      alg=$(optimal_compression_alg $1)
+      if [[ $? -ne 0 ]]; then
+         echo "Invalid compression format!"
+      else
+         tar -cv --use-compress-program=$alg -f $2 $3
+      fi
    else
       echo "invalid arguments, expects:"
-      echo "compress <output archive name> <input file name>"
+      echo "compress [format (gz, bz2, xz, zip)] <output archive name> <input file name>"
    fi
 } 
+
+
 #alias compress='tar -zcvf'
       #NOTE: These are ways to parse string file paths with pure bash
       # path="example/path/.archive.tar.gz"
@@ -111,12 +165,25 @@ function compress() {
 # expands the given archive using the appropriate expansion program based on the file extension
 function expand() {
    if [[ $# == 1 ]]; then 
-      tar -zxvf $1
+      file=$1 
+      fext=${file##*.}
+
+      alg=$(optimal_compression_alg $fext)
+
+      if [[ $? -ne 0 ]]; then
+         echo "unknown compression format '$fext'"
+         return 1
+      else
+         echo "Using compression alg '$alg'"
+         tar -xv --use-compress-program=$alg -f $1
+      fi
+
    else
       echo "invalid arguments, expects:"
       echo "expand <archive name>" 
    fi
 } 
+
 #alias expand='tar -zxvf'
 
 # Finds the number of .png images in the current directory
@@ -179,6 +246,8 @@ function hdsize() {
    echo $info
 }
 
+
+
 alias distinfo='cat /etc/*-release'
 alias cpuinfo='cat /proc/cpuinfo'
 alias meminfo='cat /proc/meminfo'
@@ -190,6 +259,9 @@ alias moboinfo='echo -e "Vendor: $(cat /sys/devices/virtual/dmi/id/board_vendor)
 #alias biosinfo='cat /sys/devices/virtual/dmi/id/bios_*'
 alias biosinfo='echo -e "Vendor: $(cat /sys/devices/virtual/dmi/id/bios_vendor)\nDate: $(cat /sys/devices/virtual/dmi/id/bios_date)\nVersion: $(cat /sys/devices/virtual/dmi/id/bios_version)"'
 
+
+alias mytop='top -H -d 1.0 -u mpwillia'
+alias mytopmem='top -H -d 1.0 -u mpwillia -a'
 
 
 # Faster ssh to CalPoly unix servers
@@ -237,7 +309,7 @@ function digidemZeusSFTP() {
       ssh -t mpwillia@unix2.csc.calpoly.edu sftp -oIdentityFile=/home/mpwillia/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
    else
       echo "On Campus; Connecting directly"
-      sftp -i ~/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
+      sftp -oIdentityFile=~/.ssh/amazon.pem mpwillia@zues.ored.calpoly.edu
    fi
 }
 alias ddDevSFTP='digidemDevSFTP'

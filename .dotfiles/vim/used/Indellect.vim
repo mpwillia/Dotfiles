@@ -7,17 +7,28 @@ if exists("loaded_indellect")
 endif
 let loaded_indellect = 1
 
+let indellect_default_indent = 3
+let indellect_max_indent = 4
+
 autocmd BufRead * call AutoDetectIndent()
 
 function! SetIndent(indent)
    "echo "Setting indentation width to " . a:indent
+   if a:indent > g:indellect_max_indent
+      let a:indent = g:indellect_max_indent
+   endif
    execute "setlocal shiftwidth=" . a:indent . " softtabstop=" . a:indent . " tabstop=" . a:indent
 endfunction
+
 
 function! AutoDetectIndent()
    let g:indent = DetectIndent()
    if g:indent > 0
-      call SetIndent(g:indent)
+      if g:indent > g:indellect_max_indent
+         call SetIndent(g:indellect_default_indent)
+      else
+         call SetIndent(g:indent)
+      endif
    endif
 endfunction
 
