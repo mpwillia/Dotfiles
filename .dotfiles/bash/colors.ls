@@ -59,9 +59,13 @@ audio (1;32) {
 }
 
 archives (0;35) {
+*.gz
+*.bz2
+*.xz
 *.7z
 *.rar
 *.tar
+*.tar.*
 *.tgz
 *.zip
 }

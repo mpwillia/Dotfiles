@@ -17,7 +17,7 @@ LSCOLORFILE="$DOTFILE_DIR/colors.ls"
 
 # Reads the file pointed to by LSCOLORFILE, parses it, and exports the result
 #  into LSCOLORS
-function __setLSColorsFromFile()
+function __oldSetLSColorsFromFile()
 {
    #cat ~/.dotfiles/.unixls | grep "\w" | grep -v "^#" | sed
    #cat ~/.dotfiles/.lscolors | grep "\w" | grep -v "^#" | sed "s/#.\ //" | perl -lane "printf "%s=%s:", shift @F, join ";", @F;"
@@ -69,6 +69,78 @@ function __setLSColorsFromFile()
    
    set +f
 }
+
+function __setLSColorsFromFile() {
+   # Possible States:
+   # 0 - Looking for a block
+   # 1 - Found a block, parsing...
+   local state=0  
+
+   # these are the definitions for the currently found block
+   local blockname=""
+   local blockcolor=""
+   
+   # the current LS_COLORS string
+   local ls_str=""
+   local linenum=0 
+
+   # disable globbing, it causes lots of problems with syntax like '*.jpg'
+   set -f
+   while read -r rawline || [[ -n $rawline ]]; do
+      # strips comments out of the line
+      local line=$(echo $rawline | sed 's/#.*$//')
+      
+      # parse the line based on our state
+      case $state in
+
+         0) if [[ $line == *"{"* ]]; then
+               # found the block header line
+               blockname=$(echo $line | sed -e 's/[ ](.*//')
+               if [[ $line == *"("*")"* ]]; then
+                  blockcolor=$(echo $line | sed -e 's/.*(//' -e 's/).*//')
+               fi
+
+               state=1
+            fi
+            ;;
+
+         1) if [[ $line == *"}"* ]]; then
+               # end of block
+               blockname=""
+               blockcolor=""
+               state=0
+            else
+               # assume block defined color by default
+               what=$line
+               color=$blockcolor
+               
+               # check if it's actually an individually defined color
+               if [[ $line == *"="* ]]; then
+                  what=$(echo $line | sed 's/=.*//') 
+                  color=$(echo $line | sed 's/.*=//')
+               fi
+
+               if [[ -z $color ]]; then
+                  echo "Invalid LS Colors File syntax; block nor definition assign a color at line $linenum: '$line'" 
+                  echo "LS_COLORS left unchanged."
+                  return 1
+               fi
+               
+               ls_str="$ls_str$what=$color:"
+            fi
+            ;;
+
+         *) echo "ERROR : UNKNOWN STATE '$state'"
+            ;;
+      esac
+
+      let linenum=linenum+1
+   done < "$LSCOLORFILE"
+   
+   export LS_COLORS="$ls_str"
+   # re-enable globbing
+   set +f
+} 
 
 function __bsdlscolors()
 {

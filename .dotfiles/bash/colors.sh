@@ -25,7 +25,7 @@
 #
 # 88/256 Color Code Chart
 # http://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg
-#
+
 # Formatting - Applies to Both 8/16 and 88/256 Colors
 # _____________|__Set__|_Reset_|
 # Reset All    |   NA  |    0  |
@@ -46,7 +46,7 @@
 # Can combine codes by seperating them with a ';'
 # Ex: "\e[1;31mHello" would print "Hello" in Bold Red
 # Ex: "\e[1;4;31mHello" would print "Hello" in Bold, Underlined Red
-#
+
 # Test Functions
 #  These functions print example text for the colors and formatting
 #  Show16ColorChart()
