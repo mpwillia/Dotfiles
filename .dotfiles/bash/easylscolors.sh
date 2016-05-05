@@ -21,6 +21,8 @@ function __setLSColorsFromFile()
 {
    #cat ~/.dotfiles/.unixls | grep "\w" | grep -v "^#" | sed
    #cat ~/.dotfiles/.lscolors | grep "\w" | grep -v "^#" | sed "s/#.\ //" | perl -lane "printf "%s=%s:", shift @F, join ";", @F;"
+   
+   set -f
 
    local LSSTR=""
    local foundBlock=0
@@ -64,6 +66,8 @@ function __setLSColorsFromFile()
    done < "$LSCOLORFILE"
 
    export LS_COLORS="$LSSTR"
+   
+   set +f
 }
 
 function __bsdlscolors()
