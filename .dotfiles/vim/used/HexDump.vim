@@ -30,7 +30,6 @@ command! -complete=shellcmd -nargs=+ HexDump call s:HexDumpFile(<q-args>)
 cabbrev hexdump HexDump
 cabbrev xd HexDump
 cabbrev hxd HexDump
-cabbrev hex HexDump
 
 "Opens the given file in hex mode within a temporary scratch buffer
 function! s:HexDumpFile(args)

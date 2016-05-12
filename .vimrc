@@ -210,20 +210,20 @@ nnoremap j gj
 nnoremap k gk
 
 " Faster movement
-inoremap <A-h><A-h><A-h> <ESC>5<LEFT>i
-inoremap <A-j><A-j><A-j> <ESC>5<DOWN>i
-inoremap <A-k><A-k><A-k> <ESC>5<UP>i
-inoremap <A-l><A-l><A-l> <ESC>5<RIGHT>i
+"inoremap <A-h><A-h><A-h> <ESC>5<LEFT>i
+"inoremap <A-j><A-j><A-j> <ESC>5<DOWN>i
+"inoremap <A-k><A-k><A-k> <ESC>5<UP>i
+"inoremap <A-l><A-l><A-l> <ESC>5<RIGHT>i
 
-nnoremap hhh 5<LEFT>
-nnoremap jjj 5<DOWN>
-nnoremap kkk 5<UP>
-nnoremap lll 5<RIGHT>
+"nnoremap hhh 5<LEFT>
+"nnoremap jjj 5<DOWN>
+"nnoremap kkk 5<UP>
+"nnoremap lll 5<RIGHT>
 
-vnoremap hhh 5<LEFT>
-vnoremap jjj 5<DOWN>
-vnoremap kkk 5<UP>
-vnoremap lll 5<RIGHT>
+"vnoremap hhh 5<LEFT>
+"vnoremap jjj 5<DOWN>
+"vnoremap kkk 5<UP>
+"vnoremap lll 5<RIGHT>
 
 " Special movement
 inoremap <A-H> <ESC>:call BracketMovement(0,1)<CR>
@@ -273,6 +273,46 @@ map <F1> :echo "high<" . synIDattr(synID(line("."),col("."),1),"name") . '> tran
 
 " Enables F2 to toggle paste mode
 set pastetoggle=<F2>
+
+nnoremap <F4> :Hexmode<CR>
+inoremap <F4> <Esc>:Hexmode<CR>
+vnoremap <F4> :<C-U>Hexmode<CR>
+
+
+command -bar Diff call ToggleDiff()
+cabbrev diff Diff
+
+function ToggleDiff()
+   if &diff
+      diffoff
+   else
+      diffthis
+   endif
+endfunction
+
+nnoremap <F5> :Diff<CR>
+inoremap <F5> <Esc>:Diff<CR>
+vnoremap <F5> :<C-U>Diff<CR>
+
+
+command -bar DiffAll call ToggleDiffAll()
+cabbrev diffall DiffAll
+
+function ToggleDiffAll()
+   if &diff
+      windo diffoff
+   else
+      windo diffthis
+   endif
+endfunction
+
+nnoremap <F6> :DiffAll<CR>
+inoremap <F6> <Esc>:DiffAll<CR>
+vnoremap <F6> :<C-U>DiffAll<CR>
+
+"nnoremap <C-H> :Hexmode<CR>
+"inoremap <C-H> <Esc>:Hexmode<CR>
+"vnoremap <C-H> :<C-U>Hexmode<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""
 """ Compilation and execution keybindings
